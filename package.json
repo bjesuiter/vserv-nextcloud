@@ -6,6 +6,7 @@
   "scripts": {
     "start": "docker-compose up --remove-orphans",
     "stop": "docker-compose down",
+    "stop:rm": "docker-compose down -v",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
