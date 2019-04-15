@@ -26,9 +26,12 @@ services:
   nextcloud:
     image: nextcloud
     restart: always
-    ports:
+      # Ports MUST NOT be forwarded in production,
+      # because nginx reverse proxy can connect to them on port 80 on the internal network
+      # and port 80 is already occupied by the reverse proxy
+#    ports:
       # Host:Container
-      - "80:80"
+#      - "80:80"
     volumes:
       - data:/var/www/html
     # maybe this link can be omitted due to docker-compose default network
