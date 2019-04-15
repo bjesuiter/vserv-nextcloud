@@ -1,0 +1,30 @@
+version: '3'
+services:
+  nextcloud:
+    image: nextcloud
+    container_name: vserv-nextcloud
+    environment:
+      # Reverse Proxy Settings
+      VIRTUAL_HOST: nextcloud.avil.io
+      LETSENCRYPT_HOST: nextcloud.avil.io
+      LETSENCRYPT_EMAIL: bjesuiter@gmail.com
+      # DB Settings
+      MYSQL_DATABASE: vserv-nextcloud
+      MYSQL_USER: root
+      MYSQL_PASSWD: some_shitty_long_root_password
+      MYSQL_HOST: db
+    ports:
+      - "0.0.0.0:8080:80"
+    volumes:
+      - nextcloud-data:/var/www/html
+    links:
+      - nextcloud-db:db
+  nextcloud-db:
+    image: mariadb
+    volumes:
+      - nextcloud-db:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: some_shitty_long_root_password
+volumes:
+  nextcloud-data:
+  nextcloud-db:
