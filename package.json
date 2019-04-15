@@ -4,7 +4,7 @@
   "description": "A nextcloud installation for vserv.avil.io",
   "main": "index.js",
   "scripts": {
-    "start": "docker-compose up",
+    "start": "docker-compose up --remove-orphans",
     "stop": "docker-compose down",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
