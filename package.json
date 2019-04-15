@@ -1,0 +1,16 @@
+{
+  "name": "vserv-nextcloud",
+  "version": "0.0.1",
+  "description": "A nextcloud installation for vserv.avil.io",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/bnware/vserv-nextcloud.git"
+  },
+  "author": "Benjamin Jesuiter <bjesuiter@gmail.com>",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/bnware/vserv-nextcloud#readme"
+}
