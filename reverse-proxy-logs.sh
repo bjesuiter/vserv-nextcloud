@@ -1,2 +1,4 @@
 #!/usr/bin/env bash
-docker container logs bnware-reverse-nginx-web
+
+# -f : waits for new logs and streams them to stdout, like tail -f
+docker container logs -f bnware-reverse-nginx-web
