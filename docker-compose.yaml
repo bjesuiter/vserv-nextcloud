@@ -24,7 +24,8 @@ services:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     networks:
-      - nextcloudnet
+#      - nextcloudnet
+      - webproxy
 
   nextcloud:
     image: nextcloud
@@ -54,7 +55,7 @@ services:
 #      LETSENCRYPT_HOST: nextcloud.avil.io
 #      LETSENCRYPT_EMAIL: bjesuiter@gmail.com
     networks:
-       - nextcloudnet
+#       - nextcloudnet
        - webproxy
 
 
