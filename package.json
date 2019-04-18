@@ -7,6 +7,8 @@
     "start": "docker-compose up --remove-orphans -d",
     "stop": "docker-compose down",
     "logs": "docker container logs -f vserv-nextcloud",
+    "rm:files-vol": "docker volume rm vserv-nextcloud_files",
+    "rm:main-vol": "docker volume rm vserv-nextcloud_main",
     "stop:rm": "docker-compose down -v",
     "proxy:logs": "docker container logs -f bnware-reverse-nginx-web"
   },
