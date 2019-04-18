@@ -13,6 +13,7 @@ networks:
       name: webproxy
 
 services:
+
   db:
     container_name: vserv-nextcloud_db
     image: mariadb
@@ -27,7 +28,6 @@ services:
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     networks:
       - nextcloudnet
-#      - webproxy
 
   nextcloud:
     container_name: vserv-nextcloud
@@ -62,5 +62,3 @@ services:
     networks:
        - nextcloudnet
        - webproxy
-
-
