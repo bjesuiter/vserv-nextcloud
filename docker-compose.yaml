@@ -14,6 +14,7 @@ networks:
 
 services:
   db:
+    container_name: vserv-nextcloud_db
     image: mariadb
     restart: always
     volumes:
@@ -29,6 +30,7 @@ services:
 #      - webproxy
 
   nextcloud:
+    container_name: vserv-nextcloud
     image: nextcloud
     restart: always
       # Ports MUST NOT be forwarded in production,
