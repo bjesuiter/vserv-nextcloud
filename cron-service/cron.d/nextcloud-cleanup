@@ -1,0 +1,4 @@
+# use /bin/bash to run commands, no matter what /etc/passwd says
+SHELL=/bin/bash
+
+15 * * * * curl http://nextcloud/nextcloud/cron.php >> /var/log/cron.log 2>&1

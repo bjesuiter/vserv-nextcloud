@@ -62,3 +62,10 @@ services:
     networks:
        - nextcloudnet
        - webproxy
+
+  cron:
+    container_name: vserv-nextcloud_cron
+    build: cron-service
+    restart: always
+    networks:
+      - nextcloudnet
