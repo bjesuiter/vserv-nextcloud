@@ -4,8 +4,9 @@
   "description": "A nextcloud installation for vserv.avil.io",
   "main": "index.js",
   "scripts": {
-    "start": "docker-compose up --remove-orphans",
+    "start": "docker-compose up --remove-orphans -d",
     "stop": "docker-compose down",
+    "logs": "docker container logs -f vserv-nextcloud_nextcloud_1",
     "stop:rm": "docker-compose down -v",
     "proxy:logs": "docker container logs -f bnware-reverse-nginx-web"
   },
