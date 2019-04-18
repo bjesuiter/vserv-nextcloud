@@ -6,7 +6,7 @@
   "scripts": {
     "start": "docker-compose up --remove-orphans -d",
     "stop": "docker-compose down",
-    "logs": "docker container logs -f vserv-nextcloud_nextcloud_1",
+    "logs": "docker container logs -f vserv-nextcloud",
     "stop:rm": "docker-compose down -v",
     "proxy:logs": "docker container logs -f bnware-reverse-nginx-web"
   },
