@@ -1,6 +1,7 @@
 version: '3'
 
 volumes:
+  nextcloud:
   data:
   db:
 
@@ -37,7 +38,8 @@ services:
       # Host:Container
 #      - "80:80"
     volumes:
-      - data:/var/www/html
+      - nextcloud:/var/www/html
+      - data:/var/www/html/data
     # maybe this link can be omitted due to docker-compose default network
     links:
       - db
