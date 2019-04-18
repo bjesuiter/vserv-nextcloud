@@ -11,7 +11,8 @@
     "rm:files-vol": "docker volume rm vserv-nextcloud_files",
     "rm:main-vol": "docker volume rm vserv-nextcloud_main",
     "stop:rm": "docker-compose down -v",
-    "proxy:logs": "docker container logs -f bnware-reverse-nginx-web"
+    "logs:proxy": "docker container logs -f bnware-reverse-nginx-web",
+    "logs:cron": "docker container logs -f vserv-nextcloud_cron"
   },
   "repository": {
     "type": "git",
