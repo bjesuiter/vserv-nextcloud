@@ -16,5 +16,6 @@
   },
   "author": "Benjamin Jesuiter <bjesuiter@gmail.com>",
   "license": "ISC",
-  "homepage": "https://bitbucket.org/bnware/vserv-nextcloud#readme"
+  "homepage": "https://bitbucket.org/bnware/vserv-nextcloud#readme",
+  "devDependencies": {}
 }
