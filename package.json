@@ -4,9 +4,10 @@
   "description": "A nextcloud installation for vserv.avil.io",
   "main": "index.js",
   "scripts": {
-    "start": "docker-compose up --remove-orphans -d",
+    "start": "docker-compose up --build --remove-orphans --detach ",
     "stop": "docker-compose down",
     "logs": "docker container logs -f vserv-nextcloud",
+    "rebuild": "docker-compose build",
     "rm:files-vol": "docker volume rm vserv-nextcloud_files",
     "rm:main-vol": "docker volume rm vserv-nextcloud_main",
     "stop:rm": "docker-compose down -v",
