@@ -7,7 +7,6 @@ volumes:
 
 networks:
   nextcloudnet:
-    # empty - not needed
   webproxy:
     external:
       name: webproxy
@@ -31,7 +30,7 @@ services:
 
   nextcloud:
     container_name: vserv-nextcloud
-    image: nextcloud
+    image: nextcloud:15
     restart: always
       # Ports MUST NOT be forwarded in production,
       # because nginx reverse proxy can connect to them on port 80 on the internal network
@@ -62,12 +61,19 @@ services:
       LETSENCRYPT_HOST: ${NEXTCLOUD_DOMAIN}
       LETSENCRYPT_EMAIL: bjesuiter@gmail.com
     networks:
-       - nextcloudnet
-       - webproxy
+      - nextcloudnet
+      - webproxy
 
   cron:
     container_name: vserv-nextcloud_cron
-    build: cron-service
+    image: nextcloud:15
     restart: always
     networks:
       - nextcloudnet
+    volumes:
+      - main:/var/www/html
+      - files:/var/www/html/data
+    entrypoint: /cron.sh
+    depends_on:
+      - db
+      - redis

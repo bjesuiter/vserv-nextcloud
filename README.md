@@ -24,7 +24,8 @@ which gets used in docker-compose like this:
  
  # Possible Cron Job improvement
  - Monitor Cron Jobs: https://cronitor.io/?utm_source=crontabguru&utm_campaign=cron_failures
- - 
+ 
+ - Handling Cron Container: https://github.com/nextcloud/docker/pull/220 
  
  ## Help
  
@@ -32,3 +33,8 @@ which gets used in docker-compose like this:
  - [How to remove docker resources](https://linuxize.com/post/how-to-remove-docker-images-containers-volumes-and-networks/#remove-one-or-more-volumes)
  - [Nextcloud trusted domains option](https://github.com/nextcloud/docker/pull/500)
  - [Build Cronjob Definitions](https://crontab.guru/#*/15_*_*_*_*)
+ 
+ ## Useful Commands
+ - set nextcloud trusted domains while running: 
+ 
+        ./occ config:system:set trusted_domains 2 --value=nextcloud.avil.io nextcloud
