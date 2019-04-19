@@ -8,7 +8,7 @@
     "stop": "docker-compose down",
     "logs": "docker container logs -f vserv-nextcloud",
     "rebuild": "docker-compose build",
-    "update": "git pull && npm start",
+    "update": "npm stop && git pull && npm start",
     "rm:files-vol": "docker volume rm vserv-nextcloud_files",
     "rm:main-vol": "docker volume rm vserv-nextcloud_main",
     "shell:nxt": "docker-compose exec -u www-data nextcloud bash",
