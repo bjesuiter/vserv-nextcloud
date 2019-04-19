@@ -6,6 +6,7 @@
   "scripts": {
     "start": "docker-compose up --remove-orphans --detach ",
     "stop": "docker-compose down",
+    "restart": "docker-compose restart",
     "logs:nxt": "docker-compose logs -f nextcloud",
     "logs:cron": "docker-compose logs -f cron",
     "logs:proxy": "docker container logs -f bnware-reverse-nginx-web",
