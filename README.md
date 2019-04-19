@@ -10,6 +10,12 @@ which gets used in docker-compose like this:
       VIRTUAL_HOST: ${NEXTCLOUD_DOMAIN}
       LETSENCRYPT_HOST: ${NEXTCLOUD_DOMAIN}
       
+# After install setup
+
+- convert some table columns to big-int type: 
+    - `npm run shell:nxt`
+    - `./occ db:convert-filecache-bigint`
+      
  ## Scripts 
  
  - start -> start this nextcloud system as detached containers with docker-compose 
