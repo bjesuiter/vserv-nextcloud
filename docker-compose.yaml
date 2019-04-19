@@ -76,4 +76,3 @@ services:
     entrypoint: /cron.sh
     depends_on:
       - db
-      - redis
