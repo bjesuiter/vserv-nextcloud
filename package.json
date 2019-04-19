@@ -4,11 +4,12 @@
   "description": "A nextcloud installation for vserv.avil.io",
   "main": "index.js",
   "scripts": {
-    "start": "docker-compose up --build --remove-orphans --detach ",
+    "start": "docker-compose up --remove-orphans --detach ",
     "stop": "docker-compose down",
     "logs": "docker container logs -f vserv-nextcloud",
     "rebuild": "docker-compose build",
     "update": "npm stop && git pull && npm start",
+    "update:rebuild": "npm stop && git pull && npm run rebuild && npm start",
     "rm:files-vol": "docker volume rm vserv-nextcloud_files",
     "rm:main-vol": "docker volume rm vserv-nextcloud_main",
     "shell:nxt": "docker-compose exec -u www-data nextcloud bash",
