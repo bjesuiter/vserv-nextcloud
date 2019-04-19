@@ -10,6 +10,8 @@
     "rebuild": "docker-compose build",
     "rm:files-vol": "docker volume rm vserv-nextcloud_files",
     "rm:main-vol": "docker volume rm vserv-nextcloud_main",
+    "shell:nextcloud": "docker-compose exec nextcloud bash",
+    "shell:cron": "docker-compose exec cron bash",
     "stop:rm": "docker-compose down -v",
     "logs:proxy": "docker container logs -f bnware-reverse-nginx-web",
     "logs:cron": "docker container logs -f vserv-nextcloud_cron"
