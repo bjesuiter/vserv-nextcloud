@@ -2,10 +2,7 @@ version: '3'
 
 volumes:
   main:
-  # DON'T use extra volume for /var/www/html/data
-  # This mounts the named volume as name 'data' as user root and group root to /var/www/html,
-  # which is not writable by nextcloud per default.
-  # files:
+  files:
   db:
 
 networks:
@@ -44,6 +41,7 @@ services:
 #      - "80:80"
     volumes:
       - main:/var/www/html
+      - files:/var/www/html/data
     # maybe this link can be omitted due to docker-compose default network
     links:
       - db
