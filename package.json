@@ -6,7 +6,9 @@
   "scripts": {
     "start": "docker-compose up --remove-orphans --detach ",
     "stop": "docker-compose down",
-    "logs": "docker container logs -f vserv-nextcloud",
+    "logs:nxt": "docker-compose logs -f nextcloud",
+    "logs:cron": "docker-compose logs -f cron",
+    "logs:proxy": "docker container logs -f bnware-reverse-nginx-web",
     "rebuild": "docker-compose build",
     "update": "npm stop && git pull && npm start",
     "update:rebuild": "npm stop && git pull && npm run rebuild && npm start",
@@ -14,11 +16,10 @@
     "rm:main-vol": "docker volume rm vserv-nextcloud_main",
     "shell:nxt": "docker-compose exec -u www-data nextcloud bash",
     "shell:nxt:root": "docker-compose exec nextcloud bash",
-    "shell:cron": "docker-compose exec cron bash",
-    "exec:occ": "docker-compose exec -u www-data nextcloud /bin/bash -c \"/var/www/html/occ\"",
-    "stop:rm": "docker-compose down -v",
-    "logs:proxy": "docker container logs -f bnware-reverse-nginx-web",
-    "logs:cron": "docker container logs -f vserv-nextcloud_cron"
+    "shell:cron": "docker-compose exec -u www-data cron bash",
+    "shell:cron:root": "docker-compose exec cron bash",
+    "exec:occ": "docker-compose exec -u www-data nextcloud occ",
+    "stop:rm": "docker-compose down -v"
   },
   "repository": {
     "type": "git",
