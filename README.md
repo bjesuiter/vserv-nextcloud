@@ -22,6 +22,9 @@ which gets used in docker-compose like this:
  - stop -> stops all containers from this system 
  - stop:rm -> CAUTION: Stops all containers AND REMOVES ALL VOLUMES WITH ALL DATA (!!!)
  
+ # Possible Cron Job improvement
+ https://cronitor.io/?utm_source=crontabguru&utm_campaign=cron_failures
+ 
  ## Help
  
  - [Nextcloud on Docker Hub](https://hub.docker.com/_/nextcloud/)
