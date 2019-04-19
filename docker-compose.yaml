@@ -49,7 +49,9 @@ services:
       # Nextcloud Settings
       NEXTCLOUD_ADMIN_USER: ${NEXTCLOUD_ADMIN_USER}
       NEXTCLOUD_ADMIN_PASSWORD: ${NEXTCLOUD_ADMIN_PASSWORD}
-      NEXTCLOUD_TRUSTED_DOMAINS: ${NEXTCLOUD_DOMAIN}
+      # the 'nextcloud' trusted domain allows the cron job
+      # to call cron.php from inside the docker-compose system
+      NEXTCLOUD_TRUSTED_DOMAINS: ${NEXTCLOUD_DOMAIN} nextcloud
       # DB Settings
       MYSQL_HOST: db
       MYSQL_DATABASE: ${MYSQL_DATABASE}
