@@ -23,11 +23,12 @@ which gets used in docker-compose like this:
  - stop:rm -> CAUTION: Stops all containers AND REMOVES ALL VOLUMES WITH ALL DATA (!!!)
  
  # Possible Cron Job improvement
- https://cronitor.io/?utm_source=crontabguru&utm_campaign=cron_failures
+ - Monitor Cron Jobs: https://cronitor.io/?utm_source=crontabguru&utm_campaign=cron_failures
+ - 
  
  ## Help
  
  - [Nextcloud on Docker Hub](https://hub.docker.com/_/nextcloud/)
  - [How to remove docker resources](https://linuxize.com/post/how-to-remove-docker-images-containers-volumes-and-networks/#remove-one-or-more-volumes)
  - [Nextcloud trusted domains option](https://github.com/nextcloud/docker/pull/500)
- 
+ - [Build Cronjob Definitions](https://crontab.guru/#*/15_*_*_*_*)
