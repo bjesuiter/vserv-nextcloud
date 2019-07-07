@@ -7,14 +7,13 @@ volumes:
 
 networks:
   nextcloudnet:
-  webproxy:
+  web:
     external:
-      name: webproxy
+      name: web
 
 services:
 
   db:
-    container_name: vserv-nextcloud_db
     image: mariadb
     restart: always
     volumes:
@@ -33,7 +32,7 @@ services:
     image: nextcloud:15
     restart: always
       # Ports MUST NOT be forwarded in production,
-      # because nginx reverse proxy can connect to them on port 80 on the internal network
+      # because reverse proxy can connect to them on port 80 on the internal network
       # and port 80 is already occupied by the reverse proxy
 #    ports:
       # Host:Container
@@ -50,22 +49,24 @@ services:
       NEXTCLOUD_ADMIN_PASSWORD: ${NEXTCLOUD_ADMIN_PASSWORD}
       # the 'nextcloud' trusted domain allows the cron job
       # to call cron.php from inside the docker-compose system
-      NEXTCLOUD_TRUSTED_DOMAINS: ${NEXTCLOUD_DOMAIN} nextcloud
+      NEXTCLOUD_TRUSTED_DOMAINS: ${SERVICE_DOMAIN} nextcloud
       # DB Settings
       MYSQL_HOST: db
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      # Reverse Proxy Settings
-      VIRTUAL_HOST: ${NEXTCLOUD_DOMAIN}
-      LETSENCRYPT_HOST: ${NEXTCLOUD_DOMAIN}
-      LETSENCRYPT_EMAIL: bjesuiter@gmail.com
     networks:
       - nextcloudnet
-      - webproxy
+      - web
+    labels:
+      # Traefik Config
+      - "traefik.docker.network=web"
+      - "traefik.enable=true"
+      - "traefik.frontend.rule=Host:${SERVICE_DOMAIN}" # multiple host-aliases with multiple host rules?
+      - "traefik.port=80"
+      - "traefik.protocol=http"
 
   cron:
-    container_name: vserv-nextcloud_cron
     image: nextcloud:15
     restart: always
     networks:
