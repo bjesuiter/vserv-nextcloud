@@ -2,6 +2,9 @@
   "name": "vserv-nextcloud",
   "version": "0.0.1",
   "description": "A nextcloud installation for vserv.avil.io",
+  "config": {
+    "service": "nextcloud"
+  },
   "scripts": {
     "start": "docker-compose up --remove-orphans -d ",
     "start:logs": "npm start && npm run logs:nxt",
@@ -9,16 +12,16 @@
     "stop:rm": "docker-compose down -v",
     "restart": "docker-compose restart",
     "restart:logs": "docker-compose restart && npm run logs:nxt",
-    "logs:nxt": "docker-compose logs -f nextcloud",
+    "logs:nxt": "docker-compose logs -f ${npm_package_config_service}",
     "logs:cron": "docker-compose logs -f cron",
     "update": "npm stop && git pull && npm start",
     "rm:files-vol": "docker volume rm vserv-nextcloud_files",
     "rm:main-vol": "docker volume rm vserv-nextcloud_main",
-    "shell:nxt": "docker-compose exec -u www-data nextcloud bash",
-    "shell:nxt:root": "docker-compose exec nextcloud bash",
+    "shell:nxt": "docker-compose exec -u www-data ${npm_package_config_service} bash",
+    "shell:nxt:root": "docker-compose exec ${npm_package_config_service} bash",
     "shell:cron": "docker-compose exec -u www-data cron bash",
     "shell:cron:root": "docker-compose exec cron bash",
-    "exec:occ": "docker-compose exec -u www-data nextcloud occ"
+    "exec:occ": "docker-compose exec -u www-data ${npm_package_config_service} occ"
   },
   "repository": {
     "type": "git",
