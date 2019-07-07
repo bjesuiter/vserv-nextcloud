@@ -2,7 +2,6 @@
   "name": "vserv-nextcloud",
   "version": "0.0.1",
   "description": "A nextcloud installation for vserv.avil.io",
-  "main": "index.js",
   "scripts": {
     "start": "docker-compose up --remove-orphans --detach ",
     "stop": "docker-compose down",
