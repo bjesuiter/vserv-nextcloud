@@ -28,7 +28,6 @@ services:
       - nextcloudnet
 
   nextcloud:
-    container_name: vserv-nextcloud
     image: nextcloud:15
     restart: always
       # Ports MUST NOT be forwarded in production,
