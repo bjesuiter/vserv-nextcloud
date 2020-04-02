@@ -7,7 +7,7 @@
   },
   "scripts": {
     "start": "docker-compose up --remove-orphans -d ",
-    "start:logs": "npm start && npm run logs:nxt",
+    "start:logs": "run-s start logs:nxt",
     "stop": "docker-compose down",
     "stop:rm": "docker-compose down -v",
     "restart": "docker-compose restart",
@@ -30,5 +30,7 @@
   "author": "Benjamin Jesuiter <bjesuiter@gmail.com>",
   "license": "ISC",
   "homepage": "https://bitbucket.org/bnware/vserv-nextcloud#readme",
-  "devDependencies": {}
+  "devDependencies": {
+    "npm-run-all": "^4.1.5"
+  }
 }
