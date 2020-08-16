@@ -1,10 +1,5 @@
 version: '3'
 
-volumes:
-  main:
-  files:
-  db:
-
 networks:
   nextcloudnet:
   web:
@@ -17,7 +12,7 @@ services:
     image: mariadb
     restart: always
     volumes:
-      - db:/var/lib/mysql
+      - ${NEXTCLOUD_ROOT}/database:/var/lib/mysql
     environment:
       # from env files
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
@@ -28,7 +23,7 @@ services:
       - nextcloudnet
 
   nextcloud:
-    image: nextcloud:15
+    image: nextcloud:19.0-apache
     restart: always
       # Ports MUST NOT be forwarded in production,
       # because reverse proxy can connect to them on port 80 on the internal network
@@ -37,8 +32,8 @@ services:
       # Host:Container
 #      - "80:80"
     volumes:
-      - main:/var/www/html
-      - files:/var/www/html/data
+      - ${NEXTCLOUD_ROOT}/main:/var/www/html
+      - ${NEXTCLOUD_ROOT}/files:/var/www/html/data
     # maybe this link can be omitted due to docker-compose default network
     links:
       - db
@@ -66,13 +61,13 @@ services:
       - "traefik.protocol=http"
 
   cron:
-    image: nextcloud:15
+    image: nextcloud:19.0-apache
     restart: always
     networks:
       - nextcloudnet
     volumes:
-      - main:/var/www/html
-      - files:/var/www/html/data
+      - ${NEXTCLOUD_ROOT}/main:/var/www/html
+      - ${NEXTCLOUD_ROOT}/files:/var/www/html/data
     entrypoint: /cron.sh
     depends_on:
       - db
