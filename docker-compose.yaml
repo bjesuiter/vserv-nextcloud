@@ -44,6 +44,8 @@ services:
       # the 'nextcloud' trusted domain allows the cron job
       # to call cron.php from inside the docker-compose system
       NEXTCLOUD_TRUSTED_DOMAINS: https://${SERVICE_DOMAIN} http://${SERVICE_DOMAIN} nextcloud
+      OVERWRITEHOST: ${SERVICE_DOMAIN}
+      OVERWRITEPROTOCOL: 'https'
       # DB Settings
       MYSQL_HOST: db
       MYSQL_DATABASE: ${MYSQL_DATABASE}
