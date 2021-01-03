@@ -12,7 +12,7 @@ services:
     image: mariadb
     restart: always
     volumes:
-      - ${NEXTCLOUD_ROOT}/database:/var/lib/mysql
+      - ${NEXTCLOUD_DATA_ROOT}/database:/var/lib/mysql
     environment:
       # from env files
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
@@ -32,8 +32,8 @@ services:
       # Host:Container
 #      - "80:80"
     volumes:
-      - ${NEXTCLOUD_ROOT}/main:/var/www/html
-      - ${NEXTCLOUD_ROOT}/files:/var/www/html/data
+      - ${NEXTCLOUD_DATA_ROOT}/main:/var/www/html
+      - ${NEXTCLOUD_DATA_ROOT}/files:/var/www/html/data
     # maybe this link can be omitted due to docker-compose default network
     links:
       - db
@@ -73,8 +73,24 @@ services:
     networks:
       - nextcloudnet
     volumes:
-      - ${NEXTCLOUD_ROOT}/main:/var/www/html
-      - ${NEXTCLOUD_ROOT}/files:/var/www/html/data
+      - ${NEXTCLOUD_DATA_ROOT}/main:/var/www/html
+      - ${NEXTCLOUD_DATA_ROOT}/files:/var/www/html/data
     entrypoint: /cron.sh
     depends_on:
       - db
+
+  backup-s3-sync:
+    # https://github.com/futurevision/docker-aws-s3-sync
+    image: futurevision/aws-s3-sync
+    restart: always
+    volumes: 
+      - ${NEXTCLOUD_DATA_ROOT}:/data:rw
+    environment: 
+      KEY: '${AWS_ACCESS_KEY_ID}'
+      SECRET: '${AWS_ACCESS_KEY_SECRET}'
+      REGION: eu-central-1
+      BUCKET: jb-vserv-backups
+      BUCKET_PATH: /${SERVICE_DOMAIN}
+      # sync each day at 02:30 - good, because backups will be made daily (at 02:00, defined by default crontab for alpine root user as 0   2   *   *   *)
+      # docs from: https://firefart.at/post/docker_and_cron_jobs/
+      CRON_SCHEDULE: "30 2 * * *"
