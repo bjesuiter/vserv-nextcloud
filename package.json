@@ -1,37 +1,37 @@
 {
-  "name": "vserv-nextcloud",
-  "version": "1.0.0",
-  "description": "A nextcloud installation for nextcloud.avil.io",
-  "config": {
-    "service": "nextcloud"
-  },
-  "scripts": {
-    "prod:start": "npm start",
-    "prod:stop": "npm stop",
-    "start": "docker-compose up --remove-orphans -d ",
-    "start:logs": "run-s start logs:nxt",
-    "stop": "docker-compose down",
-    "restart": "docker-compose restart",
-    "restart:logs": "docker-compose restart && npm run logs:nxt",
-    "logs:nxt": "docker-compose logs -f ${npm_package_config_service}",
-    "logs:cron": "docker-compose logs -f cron",
-    "update": "npm stop && git pull && npm start",
-    "shell:nxt": "docker-compose exec -u www-data ${npm_package_config_service} bash",
-    "shell:nxt:root": "docker-compose exec ${npm_package_config_service} bash",
-    "shell:cron": "docker-compose exec -u www-data cron bash",
-    "shell:cron:root": "docker-compose exec cron bash",
-    "exec:occ": "docker-compose exec -u www-data ${npm_package_config_service} occ",
-    "backup-s3-sync:now": "docker-compose exec backup-s3-sync /start.sh now",
-    "backup-s3-sync:logs": "docker-compose exec backup-s3-sync grep CRON /var/log/syslog "
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://git@bitbucket.org/bnware/vserv-nextcloud.git"
-  },
-  "author": "Benjamin Jesuiter <bjesuiter@gmail.com>",
-  "license": "ISC",
-  "homepage": "https://bitbucket.org/bnware/vserv-nextcloud#readme",
-  "devDependencies": {
-    "npm-run-all": "^4.1.5"
-  }
+	"name": "vserv-nextcloud",
+	"version": "1.0.0",
+	"description": "A nextcloud installation for nextcloud.avil.io",
+	"config": {
+		"service": "nextcloud"
+	},
+	"scripts": {
+		"prod:start": "npm start",
+		"prod:stop": "npm stop",
+		"start": "doppler run -- docker-compose up --remove-orphans -d ",
+		"start:logs": "run-s start logs:nxt",
+		"stop": "docker-compose down",
+		"restart": "docker-compose restart",
+		"restart:logs": "docker-compose restart && npm run logs:nxt",
+		"logs:nxt": "docker-compose logs -f ${npm_package_config_service}",
+		"logs:cron": "docker-compose logs -f cron",
+		"update": "npm stop && git pull && npm start",
+		"shell:nxt": "docker-compose exec -u www-data ${npm_package_config_service} bash",
+		"shell:nxt:root": "docker-compose exec ${npm_package_config_service} bash",
+		"shell:cron": "docker-compose exec -u www-data cron bash",
+		"shell:cron:root": "docker-compose exec cron bash",
+		"exec:occ": "docker-compose exec -u www-data ${npm_package_config_service} occ",
+		"backup-s3-sync:now": "docker-compose exec backup-s3-sync /start.sh now",
+		"backup-s3-sync:logs": "docker-compose exec backup-s3-sync grep CRON /var/log/syslog "
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+ssh://git@bitbucket.org/bnware/vserv-nextcloud.git"
+	},
+	"author": "Benjamin Jesuiter <bjesuiter@gmail.com>",
+	"license": "ISC",
+	"homepage": "https://bitbucket.org/bnware/vserv-nextcloud#readme",
+	"devDependencies": {
+		"npm-run-all": "^4.1.5"
+	}
 }
