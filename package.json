@@ -23,7 +23,7 @@
 		"shell:cron:root": "docker-compose exec cron bash",
 		"backup-s3-sync:now": "docker-compose exec backup-s3-sync /start.sh now",
 		"backup-s3-sync:logs": "docker-compose exec backup-s3-sync grep CRON /var/log/syslog ",
-		"exec:occ": "docker-compose exec -u www-data ${npm_package_config_service} occ",
+		"exec:occ": "docker-compose exec -u www-data ${npm_package_config_service} ./occ",
 		"disable-maintenance-mode": "npm run exec:occ -- maintenance:mode --off"
 	},
 	"repository": {
