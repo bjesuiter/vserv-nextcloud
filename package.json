@@ -14,7 +14,7 @@
 		"logs:nxt": "docker-compose logs -f ${npm_package_config_service}",
 		"logs:cron": "docker-compose logs -f cron",
 		"update": "npm stop && git pull && npm start",
-		"update:nextcloud": "npm stop && npm start -- --force-recreate",
+		"update:nextcloud": "npm stop && docker-compse pull && docker image prune && npm start",
 		"shell:nxt": "docker-compose exec -u www-data ${npm_package_config_service} bash",
 		"shell:nxt:root": "docker-compose exec ${npm_package_config_service} bash",
 		"shell:cron": "docker-compose exec -u www-data cron bash",
