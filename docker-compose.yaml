@@ -24,6 +24,7 @@ services:
   nextcloud:
     image: nextcloud:production-apache
     container_name: nextcloud
+    hostname: ${SERVICE_DOMAIN}
     restart:
       always
       # Ports MUST NOT be forwarded in production,
