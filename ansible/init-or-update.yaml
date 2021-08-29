@@ -26,29 +26,16 @@
         path: '{{service_root}}'
         state: present
 
-    - name: Ensure '.data/nextcloud' folder exists
+    - name: Ensure that all required directories for this service exist '
       file:
-        path: '{{data_root}}'
+        path: '{{ item }}'
         state: directory
         mode: '0770'
-
-    - name: Ensure '{{data_root}}/database' folder exists
-      file:
-        path: '{{data_root}}/database'
-        state: directory
-        mode: '0770'
-
-    - name: Ensure '{{data_root}}/main' folder exists
-      file:
-        path: '{{data_root}}/main'
-        state: directory
-        mode: '0770'
-
-    - name: Ensure '{{data_root}}/files' folder exists
-      file:
-        path: '{{data_root}}/files'
-        state: directory
-        mode: '0770'
+      loop:
+        - '{{data_root}}'
+        - '{{data_root}}/database'
+        - '{{data_root}}/main'
+        - '{{data_root}}/files'
 
     # variable comes from imported vars, as described here:
     # https://gist.github.com/tristanfisher/e5a306144a637dc739e7
