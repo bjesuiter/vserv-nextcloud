@@ -4,7 +4,7 @@ networks:
   nextcloudnet:
   web:
     external:
-      name: web
+      name: traefikv2
 
 services:
   db:
@@ -23,6 +23,7 @@ services:
 
   nextcloud:
     image: nextcloud:production-apache
+    container_name: nextcloud
     restart:
       always
       # Ports MUST NOT be forwarded in production,
@@ -56,16 +57,21 @@ services:
       - nextcloudnet
       - web
     labels:
-      # Traefik Config
-      - 'traefik.docker.network=web'
+      # Traefik V2 Config
       - 'traefik.enable=true'
-      - 'traefik.port=80'
-      - 'traefik.protocol=http'
-      - 'traefik.frontend.rule=Host:${SERVICE_DOMAIN}' # multiple host-aliases with multiple host rules?
+      - 'traefik.http.routers.nextcloud.rule=(Host(`${SERVICE_DOMAIN}`))'
+      - 'traefik.http.routers.nextcloud.service=nextcloud@docker'
+      - 'traefik.http.services.nextcloud.loadbalancer.server.port=80'
+      - 'traefik.http.routers.nextcloud.tls=true'
+      - 'traefik.http.routers.nextcloud.tls.certresolver=letsencrypt'
+      - 'traefik.http.routers.nextcloud.tls.domains[0].main=${SERVICE_DOMAIN}'
       # For service discovery behind traefik: https://docs.nextcloud.com/server/latest/admin_manual/configuration_server/reverse_proxy_configuration.html#service-discovery
-      - 'traefik.frontend.redirect.permanent=true'
-      - 'traefik.frontend.redirect.regex: https://(.*)/.well-known/(card|cal)dav'
-      - 'traefik.frontend.redirect.replacement: https://$$1/remote.php/dav/'
+      # Create a middleware named `nextcloud-redirects`
+      - 'traefik.http.middlewares.nextcloud-redirects.redirectRegex.permanent=true'
+      - 'traefik.http.middlewares.nextcloud-redirects.redirectRegex.regex=https://(.*)/.well-known/(card|cal)dav'
+      - 'traefik.http.middlewares.nextcloud-redirects.redirectRegex.replacement=https://${1}/remote.php/dav/'
+      # Apply the middleware named `nextcloud-redirects` to the router named `nextcloud`
+      - 'traefik.http.routers.nextcloud.middlewares=nextcloud-redirects@docker'
 
   cron:
     image: nextcloud:production-apache
