@@ -21,6 +21,11 @@
         version: 'v2'
         update: 'yes'
 
+    - name: install dependencies from package.json
+      community.general.npm:
+        path: '{{service_root}}'
+        state: present
+
     - name: Ensure '.data/nextcloud' folder exists
       file:
         path: '{{data_root}}'
