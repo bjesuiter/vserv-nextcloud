@@ -62,7 +62,8 @@ services:
       - 'traefik.enable=true'
       - 'traefik.http.routers.nextcloud.rule=(Host(`${SERVICE_DOMAIN}`))'
       - 'traefik.http.routers.nextcloud.service=nextcloud@docker'
-      - 'traefik.http.services.nextcloud.loadbalancer.server.port=80'
+      # TODO: Test why this may result in a Gateway timeout
+      # - 'traefik.http.services.nextcloud.loadbalancer.server.port=80'
       - 'traefik.http.routers.nextcloud.tls=true'
       - 'traefik.http.routers.nextcloud.tls.certresolver=letsencrypt'
       - 'traefik.http.routers.nextcloud.tls.domains[0].main=${SERVICE_DOMAIN}'
