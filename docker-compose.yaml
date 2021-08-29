@@ -69,7 +69,7 @@ services:
       # Create a middleware named `nextcloud-redirects`
       - 'traefik.http.middlewares.nextcloud-redirects.redirectRegex.permanent=true'
       - 'traefik.http.middlewares.nextcloud-redirects.redirectRegex.regex=https://(.*)/.well-known/(card|cal)dav'
-      - 'traefik.http.middlewares.nextcloud-redirects.redirectRegex.replacement=https://${1}/remote.php/dav/'
+      - 'traefik.http.middlewares.nextcloud-redirects.redirectRegex.replacement=https://$${1}/remote.php/dav/' # avoid interpolation by docker compose with double $ sign
       # Apply the middleware named `nextcloud-redirects` to the router named `nextcloud`
       - 'traefik.http.routers.nextcloud.middlewares=nextcloud-redirects@docker'
 
