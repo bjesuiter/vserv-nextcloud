@@ -28,6 +28,15 @@ which gets used in docker-compose like this:
 
 - Handling Cron Container: https://github.com/nextcloud/docker/pull/220
 
+## Nextcloud Updates
+
+1. Use newer nextcloud version docker image in docker-compose.yaml (z.B. 23-apache)
+
+- CAUTION: Use only the next higher version, multi-version upgrade is not supported by nextcloud!
+- NOTE: This sets nextcloud automatically into maintenance mode
+
+2. Run upgrades via command line `npm run occ:upgrade`
+
 ## Nextcloud in Maintenance Mode?
 
 Fix with:
@@ -35,7 +44,7 @@ Fix with:
 - https://www.hostflash.de/blog/webhosting/nextcloud-wartungsmodus-aktivieren-und-deaktivieren-anleitung.html#
 - https://help.nextcloud.com/t/gelost-nextcloud-im-wartungsmodus-seit-update-noob/74945
 
-Deactivate with `npm run disable-maintenance`
+Deactivate with `npm run occ:maintenance-off`
 
 ## Help
 
