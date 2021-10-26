@@ -6,8 +6,9 @@
 		"service": "nextcloud"
 	},
 	"scripts": {
-		"start": "doppler run -- docker-compose up --remove-orphans -d ",
+		"start": "doppler run -- docker-compose up --remove-orphans -d",
 		"start:logs": "run-s start logs:nxt",
+		"debug": "doppler run -- docker-compose up --remove-orphans",
 		"stop": "doppler run -- docker-compose down",
 		"restart:soft": "doppler run -- docker-compose restart",
 		"restart": "npm stop && npm start",
