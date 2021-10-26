@@ -22,7 +22,7 @@ services:
       - nextcloudnet
 
   nextcloud:
-    image: nextcloud:22-apache
+    image: nextcloud:21-apache
     container_name: nextcloud
     hostname: ${SERVICE_DOMAIN}
     restart:
