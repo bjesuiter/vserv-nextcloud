@@ -35,6 +35,8 @@ Fix with:
 - https://www.hostflash.de/blog/webhosting/nextcloud-wartungsmodus-aktivieren-und-deaktivieren-anleitung.html#
 - https://help.nextcloud.com/t/gelost-nextcloud-im-wartungsmodus-seit-update-noob/74945
 
+Deactivate with `npm run disable-maintenance`
+
 ## Help
 
 - [Nextcloud on Docker Hub](https://hub.docker.com/_/nextcloud/)
