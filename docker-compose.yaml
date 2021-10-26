@@ -46,7 +46,7 @@ services:
       NEXTCLOUD_ADMIN_PASSWORD: ${NEXTCLOUD_ADMIN_PASSWORD}
       # the 'nextcloud' trusted domain allows the cron job
       # to call cron.php from inside the docker-compose system
-      NEXTCLOUD_TRUSTED_DOMAINS: https://${SERVICE_DOMAIN} http://${SERVICE_DOMAIN} nextcloud
+      NEXTCLOUD_TRUSTED_DOMAINS: https://${SERVICE_DOMAIN} https://${HOST_DOMAIN} nextcloud
       OVERWRITEHOST: ${SERVICE_DOMAIN}
       OVERWRITEPROTOCOL: 'https'
       # DB Settings
@@ -61,17 +61,25 @@ services:
       # Traefik V2 Config
       - 'traefik.enable=true'
       - 'traefik.docker.network=traefikv2'
-      - 'traefik.http.routers.nextcloud.rule=Host(`${SERVICE_DOMAIN}`)'
-      - 'traefik.http.routers.nextcloud.service=nextcloud@docker'
       - 'traefik.http.services.nextcloud.loadbalancer.server.port=80'
-      - 'traefik.http.routers.nextcloud.tls=true'
-      - 'traefik.http.routers.nextcloud.tls.certresolver=letsencrypt'
-      - 'traefik.http.routers.nextcloud.tls.domains[0].main=${SERVICE_DOMAIN}'
-      # For service discovery behind traefik: https://docs.nextcloud.com/server/latest/admin_manual/configuration_server/reverse_proxy_configuration.html#service-discovery
+      - 'traefik.http.routers.nextcloud.rule=Host(`${SERVICE_DOMAIN}`, `nextcloud.${HOST_DOMAIN}`)'
+      - 'traefik.http.routers.nextcloud.service=nextcloud@docker'
+      - 'traefik.http.routers.nextcloud.entrypoints=https'
+      # => Note: All SSL Settigns are done on the Entrypoint 'https'
+
+      # Special SSl settings
+      # - 'traefik.http.routers.nextcloud.tls=true'
+      # - 'traefik.http.routers.nextcloud.tls.certresolver=domainoffensive'
+      # - 'traefik.http.routers.nextcloud.tls.domains[0].main=nextcloud.${HOST_DOMAIN}'
+      # TEST: CAN I ADD another domain only by adding it to the domains array?!?
+      - 'traefik.http.routers.nextcloud.tls.domains[1].main=${SERVICE_DOMAIN}'
+      # For service discovery behind traefik:
+      # https://docs.nextcloud.com/server/latest/admin_manual/configuration_server/reverse_proxy_configuration.html#service-discovery
       # Create a middleware named `nextcloud-redirects`
       - 'traefik.http.middlewares.nextcloud-redirects.redirectRegex.permanent=true'
       - 'traefik.http.middlewares.nextcloud-redirects.redirectRegex.regex=https://(.*)/.well-known/(card|cal)dav'
-      - 'traefik.http.middlewares.nextcloud-redirects.redirectRegex.replacement=https://$${1}/remote.php/dav/' # avoid interpolation by docker compose with double $ sign
+      - 'traefik.http.middlewares.nextcloud-redirects.redirectRegex.replacement=https://$${1}/remote.php/dav/'
+      # => avoid interpolation by docker compose with double $ sign
       # Apply the middleware named `nextcloud-redirects` to the router named `nextcloud`
       - 'traefik.http.routers.nextcloud.middlewares=nextcloud-redirects@docker'
 
