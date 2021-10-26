@@ -22,7 +22,7 @@ services:
       - nextcloudnet
 
   nextcloud:
-    image: nextcloud:22-apache
+    image: ${NEXTCLOUD_IMAGE}
     container_name: nextcloud
     hostname: ${SERVICE_DOMAIN}
     restart:
@@ -82,7 +82,7 @@ services:
       - 'traefik.http.routers.nextcloud.middlewares=nextcloud-redirects@docker'
 
   cron:
-    image: nextcloud:20-apache
+    image: ${NEXTCLOUD_IMAGE}
     restart: always
     networks:
       - nextcloudnet
