@@ -18,7 +18,7 @@
 		"logs:cron": "doppler run -- docker-compose logs -f cron",
 		"update": "npm stop && git pull && npm start",
 		"update:nextcloud": " run-s images:update images:cleanup restart",
-		"images:update": "docker-compose pull",
+		"images:update": "doppler run -- docker-compose pull",
 		"images:cleanup": "docker image prune",
 		"shell:nxt": "docker-compose exec -u www-data ${npm_package_config_service} bash",
 		"shell:nxt:root": "docker-compose exec ${npm_package_config_service} bash",
