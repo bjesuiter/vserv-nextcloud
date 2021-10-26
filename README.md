@@ -39,7 +39,7 @@ which gets used in docker-compose like this:
 
 ## FAQ
 
-## Nextcloud in Maintenance Mode?
+### Nextcloud in Maintenance Mode?
 
 Fix with:
 
@@ -48,7 +48,7 @@ Fix with:
 
 Deactivate with `npm run occ:maintenance-off`
 
-## Docker Nextcloud Update deadlock
+### Docker Nextcloud Update deadlock
 
 https://help.nextcloud.com/t/deadlock-while-upgrading-nextcloud-on-docker/125301
 
@@ -56,6 +56,8 @@ https://help.nextcloud.com/t/deadlock-while-upgrading-nextcloud-on-docker/125301
 
 - Restore old DB
 - Update to correct version first
+
+### Download
 
 ## Help
 
