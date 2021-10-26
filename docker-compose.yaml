@@ -39,6 +39,8 @@ services:
     # maybe this link can be omitted due to docker-compose default network
     links:
       - db
+    depends_on:
+      - db
     environment:
       # All settings will be filled by doppler-cli
       # Nextcloud Settings
