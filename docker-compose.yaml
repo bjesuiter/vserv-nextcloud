@@ -65,13 +65,11 @@ services:
       - 'traefik.http.routers.nextcloud.rule=Host(`${SERVICE_DOMAIN}`, `nextcloud.${HOST_DOMAIN}`)'
       - 'traefik.http.routers.nextcloud.service=nextcloud@docker'
       - 'traefik.http.routers.nextcloud.entrypoints=https'
-      # => Note: All SSL Settigns are done on the Entrypoint 'https'
 
-      # Special SSl settings
-      # - 'traefik.http.routers.nextcloud.tls=true'
-      # - 'traefik.http.routers.nextcloud.tls.certresolver=domainoffensive'
-      # - 'traefik.http.routers.nextcloud.tls.domains[0].main=nextcloud.${HOST_DOMAIN}'
-      # TEST: CAN I ADD another domain only by adding it to the domains array?!?
+      # Override SSl settings (since I avil.io as second domain)
+      - 'traefik.http.routers.nextcloud.tls=true'
+      - 'traefik.http.routers.nextcloud.tls.certresolver=domainoffensive'
+      - 'traefik.http.routers.nextcloud.tls.domains[0].main=nextcloud.${HOST_DOMAIN}'
       - 'traefik.http.routers.nextcloud.tls.domains[1].main=${SERVICE_DOMAIN}'
       # For service discovery behind traefik:
       # https://docs.nextcloud.com/server/latest/admin_manual/configuration_server/reverse_proxy_configuration.html#service-discovery
