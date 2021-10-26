@@ -37,6 +37,8 @@ which gets used in docker-compose like this:
 
 2. Run upgrades via command line `npm run occ:upgrade`
 
+## FAQ
+
 ## Nextcloud in Maintenance Mode?
 
 Fix with:
@@ -45,6 +47,10 @@ Fix with:
 - https://help.nextcloud.com/t/gelost-nextcloud-im-wartungsmodus-seit-update-noob/74945
 
 Deactivate with `npm run occ:maintenance-off`
+
+## Docker Nextcloud Update deadlock
+
+https://help.nextcloud.com/t/deadlock-while-upgrading-nextcloud-on-docker/125301
 
 ## Help
 
