@@ -52,6 +52,11 @@ Deactivate with `npm run occ:maintenance-off`
 
 https://help.nextcloud.com/t/deadlock-while-upgrading-nextcloud-on-docker/125301
 
+=> Only solution:
+
+- Restore old DB
+- Update to correct version first
+
 ## Help
 
 - [Nextcloud on Docker Hub](https://hub.docker.com/_/nextcloud/)
