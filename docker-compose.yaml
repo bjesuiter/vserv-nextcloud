@@ -10,6 +10,14 @@ services:
   db:
     image: mariadb
     restart: always
+    command:
+      # This is the most important line to fix the error
+      - '--skip-innodb-read-only-compressed'
+      # These seemed appropriate, from
+      # https://techoverflow.net/2021/08/17/how-to-fix-nextcloud-4047-innodb-refuses-to-write-tables-with-row_formatcompressed-or-key_block_size/
+      - '--transaction-isolation=READ-COMMITTED'
+      - '--binlog-format=ROW'
+      - '--innodb-file-per-table=1'
     volumes:
       - ${NEXTCLOUD_DATA_ROOT}/database:/var/lib/mysql
     environment:
