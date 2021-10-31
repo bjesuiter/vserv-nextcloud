@@ -13,7 +13,7 @@
 		"restart:soft": "doppler run -- docker-compose restart",
 		"restart": "npm stop && npm start",
 		"restart:logs": "run-s restart logs:nxt",
-		"logs": "npm run logs:nxt",
+		"logs": "doppler run -- docker-compose logs -f -t",
 		"logs:nxt": "doppler run -- docker-compose logs -f ${npm_package_config_service}",
 		"logs:db": "doppler run -- docker-compose logs -f db",
 		"logs:cron": "doppler run -- docker-compose logs -f cron",
