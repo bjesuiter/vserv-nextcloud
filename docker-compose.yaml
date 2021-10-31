@@ -25,17 +25,16 @@ services:
     image: ${NEXTCLOUD_IMAGE}
     container_name: nextcloud
     hostname: ${SERVICE_DOMAIN}
-    restart:
-      always
-      # Ports MUST NOT be forwarded in production,
-      # because reverse proxy can connect to them on port 80 on the internal network
-      # and port 80 is already occupied by the reverse proxy
-    #    ports:
+    restart: always
+    # Ports MUST NOT be forwarded in production,
+    # because reverse proxy can connect to them on port 80 on the internal network
+    # and port 80 is already occupied by the reverse proxy
+    # ports:
     # Host:Container
     #      - "80:80"
     volumes:
       - ${NEXTCLOUD_DATA_ROOT}/main:/var/www/html
-      - ${NEXTCLOUD_DATA_ROOT}/files:/var/www/html/data
+      # - ${NEXTCLOUD_DATA_ROOT}/files:/var/www/html/data
     # maybe this link can be omitted due to docker-compose default network
     links:
       - db
@@ -124,18 +123,19 @@ services:
     depends_on:
       - db
 
-  backup-s3-sync:
-    # https://github.com/futurevision/docker-aws-s3-sync
-    image: futurevision/aws-s3-sync
-    restart: always
-    volumes:
-      - ${NEXTCLOUD_DATA_ROOT}:/data:rw
-    environment:
-      KEY: '${AWS_ACCESS_KEY_ID}'
-      SECRET: '${AWS_ACCESS_KEY_SECRET}'
-      REGION: eu-central-1
-      BUCKET: jb-vserv-backups
-      BUCKET_PATH: /${SERVICE_DOMAIN}
-      # sync each day at 02:30 - good, because backups will be made daily (at 02:00, defined by default crontab for alpine root user as 0   2   *   *   *)
-      # docs from: https://firefart.at/post/docker_and_cron_jobs/
-      CRON_SCHEDULE: '30 2 * * *'
+  ## OLD S3 Sync (now done by minio server)
+  # backup-s3-sync:
+  #   # https://github.com/futurevision/docker-aws-s3-sync
+  #   image: futurevision/aws-s3-sync
+  #   restart: always
+  #   volumes:
+  #     - ${NEXTCLOUD_DATA_ROOT}:/data:rw
+  #   environment:
+  #     KEY: '${AWS_ACCESS_KEY_ID}'
+  #     SECRET: '${AWS_ACCESS_KEY_SECRET}'
+  #     REGION: eu-central-1
+  #     BUCKET: jb-vserv-backups
+  #     BUCKET_PATH: /${SERVICE_DOMAIN}
+  #     # sync each day at 02:30 - good, because backups will be made daily (at 02:00, defined by default crontab for alpine root user as 0   2   *   *   *)
+  #     # docs from: https://firefart.at/post/docker_and_cron_jobs/
+  #     CRON_SCHEDULE: '30 2 * * *'
