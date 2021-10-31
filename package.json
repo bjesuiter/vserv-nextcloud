@@ -7,7 +7,7 @@
 	},
 	"scripts": {
 		"start": "doppler run -- docker-compose up --remove-orphans -d",
-		"start:logs": "run-s start logs:nxt",
+		"start:logs": "run-s start logs",
 		"debug": "doppler run -- docker-compose up --remove-orphans",
 		"stop": "doppler run -- docker-compose down",
 		"restart:soft": "doppler run -- docker-compose restart",
