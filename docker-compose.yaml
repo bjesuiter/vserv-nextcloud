@@ -111,17 +111,18 @@ services:
       # Apply the middleware named `nextcloud-redirects` to the router named `nextcloud`
       - 'traefik.http.routers.nextcloud.middlewares=nextcloud-redirects@docker'
 
-  cron:
-    image: ${NEXTCLOUD_IMAGE}
-    restart: always
-    networks:
-      - nextcloudnet
-    volumes:
-      - ${NEXTCLOUD_DATA_ROOT}/main:/var/www/html
-      - ${NEXTCLOUD_DATA_ROOT}/files:/var/www/html/data
-    entrypoint: /cron.sh
-    depends_on:
-      - db
+  # TODO: Check how this can/must be used when primary object storage is enabled
+  # cron:
+  #   image: ${NEXTCLOUD_IMAGE}
+  #   restart: always
+  #   networks:
+  #     - nextcloudnet
+  #   volumes:
+  #     - ${NEXTCLOUD_DATA_ROOT}/main:/var/www/html
+  #     # - ${NEXTCLOUD_DATA_ROOT}/files:/var/www/html/data
+  #   entrypoint: /cron.sh
+  #   depends_on:
+  #     - db
 
   ## OLD S3 Sync (now done by minio server)
   # backup-s3-sync:
