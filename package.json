@@ -18,6 +18,7 @@
 		"logs:nxt": "doppler run -- docker-compose logs -f ${npm_package_config_service}",
 		"logs:db": "doppler run -- docker-compose logs -f db",
 		"logs:cron": "doppler run -- docker-compose logs -f cron",
+		"logs:nxt-server": "less ~/data/nextcloud/main/data/nextcloud.log",
 		"update": "npm stop && git pull && npm start",
 		"update:docker": " run-s images:update restart",
 		"images:update": "doppler run -- docker-compose pull",
