@@ -46,11 +46,12 @@
         cmd: 'doppler setup --token={{nextcloud_doppler_token}} --no-prompt'
       register: doppler_result
 
-    - name: run nextloud via npm
-      command:
-        cmd: npm start
-        chdir: '{{service_root}}'
-      register: npm_result
+    # Note: On first init run `npm run first-init` to init db service, after that run `npm start` for each subsequent start
+    # - name: run nextloud via npm
+    #   command:
+    #     cmd: npm start
+    #     chdir: '{{service_root}}'
+    #   register: npm_result
 
     - name: User Message (For initial setup)
       debug:
