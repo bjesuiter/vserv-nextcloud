@@ -8,24 +8,15 @@ networks:
 
 services:
   db:
-    image: mariadb
+    image: postgres:9.6
     restart: always
-    command:
-      # This is the most important line to fix the error
-      - '--skip-innodb-read-only-compressed'
-      # These seemed appropriate, from
-      # https://techoverflow.net/2021/08/17/how-to-fix-nextcloud-4047-innodb-refuses-to-write-tables-with-row_formatcompressed-or-key_block_size/
-      - '--transaction-isolation=READ-COMMITTED'
-      - '--binlog-format=ROW'
-      - '--innodb-file-per-table=1'
     volumes:
-      - ${NEXTCLOUD_DATA_ROOT}/database:/var/lib/mysql
+      - ${NEXTCLOUD_DATA_ROOT}/database:/var/lib/postgresql/data
     environment:
       # from doppler-cli service
-      MYSQL_ROOT_PASSWORD:
-      MYSQL_DATABASE:
-      MYSQL_USER:
-      MYSQL_PASSWORD:
+      POSTGRES_DB:
+      POSTGRES_USER:
+      POSTGRES_PASSWORD:
     networks:
       - internal
 
@@ -52,10 +43,10 @@ services:
       # All empty vars will be copied from host environment, which in turn is filled by doppler-cli
 
       # DB Settings
-      MYSQL_HOST: db
-      MYSQL_DATABASE:
-      MYSQL_USER:
-      MYSQL_PASSWORD:
+      POSTGRES_HOST: db
+      POSTGRES_DB:
+      POSTGRES_USER:
+      POSTGRES_PASSWORD:
 
       # Nextcloud Settings
       NEXTCLOUD_ADMIN_USER:
