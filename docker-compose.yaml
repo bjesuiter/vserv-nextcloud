@@ -1,7 +1,7 @@
 version: '3'
 
 networks:
-  nextcloudnet:
+  internal:
   web:
     external:
       name: traefikv2
@@ -14,12 +14,12 @@ services:
       - ${NEXTCLOUD_DATA_ROOT}/database:/var/lib/mysql
     environment:
       # from doppler-cli service
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD:
+      MYSQL_DATABASE:
+      MYSQL_USER:
+      MYSQL_PASSWORD:
     networks:
-      - nextcloudnet
+      - internal
 
   nextcloud:
     image: ${NEXTCLOUD_IMAGE}
@@ -85,7 +85,7 @@ services:
       # OBJECTSTORE_S3_USEPATH_STYLE: true # (default: false)
       # OBJECTSTORE_S3_REGION:
     networks:
-      - nextcloudnet
+      - internal
       - web
     labels:
       # Traefik V2 Config
@@ -116,7 +116,7 @@ services:
   #   image: ${NEXTCLOUD_IMAGE}
   #   restart: always
   #   networks:
-  #     - nextcloudnet
+  #     - internal
   #   volumes:
   #     - ${NEXTCLOUD_DATA_ROOT}/main:/var/www/html
   #     # - ${NEXTCLOUD_DATA_ROOT}/files:/var/www/html/data
