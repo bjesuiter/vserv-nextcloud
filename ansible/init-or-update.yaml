@@ -35,7 +35,7 @@
         - '{{data_root}}'
         - '{{data_root}}/database'
         - '{{data_root}}/main'
-        - '{{data_root}}/files'
+        # - '{{data_root}}/files'
 
     # variable comes from imported vars, as described here:
     # https://gist.github.com/tristanfisher/e5a306144a637dc739e7
