@@ -63,7 +63,7 @@ services:
 
       # the 'nextcloud' trusted domain allows the cron job
       # to call cron.php from inside the docker-compose system
-      NEXTCLOUD_TRUSTED_DOMAINS: https://${SERVICE_DOMAIN} https://${HOST_DOMAIN} nextcloud
+      NEXTCLOUD_TRUSTED_DOMAINS: https://${SERVICE_DOMAIN} https://nextcloud.${HOST_DOMAIN} nextcloud
       OVERWRITEHOST: ${SERVICE_DOMAIN}
       OVERWRITEPROTOCOL: 'https'
 
@@ -107,8 +107,8 @@ services:
       # Override SSl settings (since I avil.io as second domain)
       - 'traefik.http.routers.nextcloud.tls=true'
       - 'traefik.http.routers.nextcloud.tls.certresolver=domainoffensive'
-      - 'traefik.http.routers.nextcloud.tls.domains[0].main=nextcloud.${HOST_DOMAIN}'
-      - 'traefik.http.routers.nextcloud.tls.domains[1].main=${SERVICE_DOMAIN}'
+      - 'traefik.http.routers.nextcloud.tls.domains[0].main=${SERVICE_DOMAIN}'
+      - 'traefik.http.routers.nextcloud.tls.domains[1].main=nextcloud.${HOST_DOMAIN}'
       # For service discovery behind traefik:
       # https://docs.nextcloud.com/server/latest/admin_manual/configuration_server/reverse_proxy_configuration.html#service-discovery
       # Create a middleware named `nextcloud-redirects`
