@@ -42,20 +42,40 @@ services:
     depends_on:
       - db
     environment:
-      # All settings will be filled by doppler-cli
+      # All empty vars will be copied from host environment, which in turn is filled by doppler-cli
+
+      # DB Settings
+      MYSQL_HOST: db
+      MYSQL_DATABASE:
+      MYSQL_USER:
+      MYSQL_PASSWORD:
+
       # Nextcloud Settings
-      NEXTCLOUD_ADMIN_USER: ${NEXTCLOUD_ADMIN_USER}
-      NEXTCLOUD_ADMIN_PASSWORD: ${NEXTCLOUD_ADMIN_PASSWORD}
+      NEXTCLOUD_ADMIN_USER:
+      NEXTCLOUD_ADMIN_PASSWORD:
+
       # the 'nextcloud' trusted domain allows the cron job
       # to call cron.php from inside the docker-compose system
       NEXTCLOUD_TRUSTED_DOMAINS: https://${SERVICE_DOMAIN} https://${HOST_DOMAIN} nextcloud
       OVERWRITEHOST: ${SERVICE_DOMAIN}
       OVERWRITEPROTOCOL: 'https'
-      # DB Settings
-      MYSQL_HOST: db
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+
+      ### TODO: Redis Container for DB Speedup & prevention of file locking problems
+      ## The use of Redis is recommended to prevent file locking problems. See the examples for further instructions.
+      # REDIS_HOST Name of Redis container (via links & depends)
+      # REDIS_HOST_PORT
+      # REDIS_HOST_PASSWORD
+
+      ### TODO: Configure SMTP
+      # SMTP_HOST (not set by default): The hostname of the SMTP server.
+      # SMTP_SECURE (empty by default): Set to ssl to use SSL, or tls to use STARTTLS.
+      # SMTP_PORT (default: 465 for SSL and 25 for non-secure connections): Optional port for the SMTP connection. Use 587 for an alternative port for STARTTLS.
+      # SMTP_AUTHTYPE (default: LOGIN): The method used for authentication. Use PLAIN if no authentication is required.
+      # SMTP_NAME (empty by default): The username for the authentication.
+      # SMTP_PASSWORD (empty by default): The password for the authentication.
+      # MAIL_FROM_ADDRESS (not set by default): Use this address for the 'from' field in the emails sent by Nextcloud.
+      # MAIL_DOMAIN (not set by default): Set a different domain for the emails than the domain where Nextcloud is installed.
+
     networks:
       - nextcloudnet
       - web
