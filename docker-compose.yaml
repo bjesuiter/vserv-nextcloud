@@ -76,6 +76,15 @@ services:
       # MAIL_FROM_ADDRESS (not set by default): Use this address for the 'from' field in the emails sent by Nextcloud.
       # MAIL_DOMAIN (not set by default): Set a different domain for the emails than the domain where Nextcloud is installed.
 
+      ### S3 compatible object store as primary storage
+      OBJECTSTORE_S3_HOST:
+      OBJECTSTORE_S3_BUCKET:
+      OBJECTSTORE_S3_KEY:
+      OBJECTSTORE_S3_SECRET:
+      OBJECTSTORE_S3_PORT: 443
+      OBJECTSTORE_S3_SSL: true
+      # OBJECTSTORE_S3_USEPATH_STYLE: true # (default: false)
+      # OBJECTSTORE_S3_REGION:
     networks:
       - nextcloudnet
       - web

@@ -2,6 +2,13 @@
 
 Uses: [Nextcloud Docker](https://github.com/nextcloud/docker)
 
+- [Guide: Using Object Storage as Primary Storage](https://docs.nextcloud.com/server/latest/admin_manual/configuration_files/primary_storage.html)
+- [ENV Vars available in nextcloud docker image](https://hub.docker.com/_/nextcloud?tab=description)
+
+---
+
+# Old
+
 HTTPS done by: [vserv-reverse-proxy](https://bitbucket.org/bnware/vserv-reverse-proxy/src/master/)
 
 Included into Reverse Proxy by setting env var NEXTCLOUD_DOMAIN in .env file
