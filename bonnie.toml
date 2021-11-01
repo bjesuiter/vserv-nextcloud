@@ -30,7 +30,6 @@ version = "0.3.2"
     stop       = "bonnie compose down"
     logs       = "bonnie compose logs -f -t %%"
     backup-now = "bonnie backup-daily"
-    cleanup    = "bonnie docker-cleanup"
 
     start-logs = ["bonnie start", "bonnie logs"]
     restart = ["bonnie stop", "bonnie start"]
@@ -45,15 +44,18 @@ version = "0.3.2"
 
 
     # Per Container Scripts - Nextcloud 
-    logs-nxt            = "bonnie logs nextcloud"
-    shell-nxt           = "bonnie compose exec nextcloud bash"
-    shell-nxt-www       = "bonnie compose exec -u www-data nextcloud bash"
-    occ                 = "bonnie compose exec -u www-data nextcloud ./occ %%"
-    occ-logs            = "bonnie occ log:tail"
-    occ-logs-watch      = "bonnie occ log:watch"
-    occ-upgrade         = "bonnie occ upgrade"
-    occ-maintenance-off = "bonnie occ maintenance:mode --off"
-    occ-maintenance-on  = "bonnie occ maintenance:mode --on"
+    logs-nxt             = "bonnie logs nextcloud"
+    shell-nxt            = "bonnie compose exec nextcloud bash"
+    shell-nxt-www        = "bonnie compose exec -u www-data nextcloud bash"
+    occ                  = "bonnie compose exec -u www-data nextcloud ./occ %%"
+    occ-logs             = "bonnie occ log:tail"
+    occ-logs-watch       = "bonnie occ log:watch"
+    occ-upgrade          = "bonnie occ upgrade"
+    occ-maintenance-off  = "bonnie occ maintenance:mode --off"
+    occ-maintenance-on   = "bonnie occ maintenance:mode --on"
+    occ-files-scan       = "bonnie occ files:scan %%"
+    occ-files-cleanup    = "bonnie occ files:cleanup"
+    occ-trashbin-cleanup = "bonnie occ trashbin:cleanup --all-users"
 
     # Per Container Scripts - db
     logs-db = "bonnie logs db"

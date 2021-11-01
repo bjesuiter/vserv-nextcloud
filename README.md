@@ -9,6 +9,17 @@ Uses: [Nextcloud Docker](https://github.com/nextcloud/docker)
 
 - https://wiki.archlinux.org/title/Nextcloud#Writable_apps_directory
 
+## Backup & Restore
+
+- [Backup Guide](https://docs.nextcloud.com/server/latest/admin_manual/maintenance/backup.html)
+- [Restore Guide](https://docs.nextcloud.com/server/latest/admin_manual/maintenance/restore.html)
+
+Note: run `occ maintenance:data-fingerprint` after restauration!
+
+- Files: via minio mc mirror from Netcup storage1500 to aws s3
+- Folders (Config, Themes, etc.): backup to jb-web-services/backups/nextcloud
+- Database: backup via pg_dump to jb-web-services/backups/nextcloud
+
 ---
 
 # Old
