@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# copies arg1 to location at arg2
+# -v verbose 
+# -a archive (combines multiple settings)
+# https://wiki.ubuntuusers.de/rsync/?flavour=mobile
+
+# Sync config folder
+# Source: https://docs.nextcloud.com/server/latest/admin_manual/maintenance/backup.html#backup-folders
+rsync -Aavx /etc/backup/data-src/ "/etc/backup/data-target/nextcloud-$(date +"%Y%m%d")-config_dir.bak"
