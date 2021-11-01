@@ -8,7 +8,7 @@ networks:
 
 services:
   db:
-    image: postgres:9.6
+    image: postgres:14.0
     restart: always
     volumes:
       - ${NEXTCLOUD_DATA_ROOT}/database:/var/lib/postgresql/data
@@ -51,6 +51,9 @@ services:
       # Nextcloud Settings
       NEXTCLOUD_ADMIN_USER:
       NEXTCLOUD_ADMIN_PASSWORD:
+      # Undocumented Hack to see nextcloud logs in docker:
+      # https://github.com/nextcloud/docker/issues/845#issuecomment-613391327
+      NC_log_type: errrorlog
 
       # the 'nextcloud' trusted domain allows the cron job
       # to call cron.php from inside the docker-compose system
