@@ -19,6 +19,7 @@
 		"logs:db": "doppler run -- docker-compose logs -f db",
 		"logs:cron": "doppler run -- docker-compose logs -f cron",
 		"logs:nc": "npm run exec:occ -- log:tail",
+		"logs:nc:watch": "npm run exec:occ -- log:watch",
 		"update": "npm stop && git pull && npm start",
 		"update:docker": " run-s images:update restart",
 		"images:update": "doppler run -- docker-compose pull",
