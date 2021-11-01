@@ -1,0 +1,8 @@
+#!/bin/sh
+
+###
+# This script ensures that all backup commands run by crond will be executed in the correct order!
+###
+
+/etc/scripts/backup-postgres-db
+/etc/scripts/backup-nextcloud-config
