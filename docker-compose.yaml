@@ -1,96 +1,166 @@
 version: '3'
 
 networks:
-  nextcloudnet:
+  internal:
   web:
     external:
-      name: web
+      name: traefikv2
 
 services:
   db:
-    image: mariadb
+    # Before updating: check availability of postgres-client on alpine linux for backups!
+    image: postgres:13.4
     restart: always
     volumes:
-      - ${NEXTCLOUD_DATA_ROOT}/database:/var/lib/mysql
+      - ${NEXTCLOUD_DATA_ROOT}/database:/var/lib/postgresql/data
     environment:
       # from doppler-cli service
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      POSTGRES_DB:
+      POSTGRES_USER:
+      POSTGRES_PASSWORD:
     networks:
-      - nextcloudnet
+      - internal
 
   nextcloud:
-    image: nextcloud:production-apache
-    restart:
-      always
-      # Ports MUST NOT be forwarded in production,
-      # because reverse proxy can connect to them on port 80 on the internal network
-      # and port 80 is already occupied by the reverse proxy
-    #    ports:
+    image: ${NEXTCLOUD_IMAGE}
+    container_name: nextcloud
+    hostname: ${SERVICE_DOMAIN}
+    restart: always
+    # Ports MUST NOT be forwarded in production,
+    # because reverse proxy can connect to them on port 80 on the internal network
+    # and port 80 is already occupied by the reverse proxy
+    # ports:
     # Host:Container
     #      - "80:80"
     volumes:
-      - ${NEXTCLOUD_DATA_ROOT}/main:/var/www/html
-      - ${NEXTCLOUD_DATA_ROOT}/files:/var/www/html/data
+      - ${NEXTCLOUD_DATA_ROOT}/config:/var/www/html
+      # - ${NEXTCLOUD_DATA_ROOT}/files:/var/www/html/data
     # maybe this link can be omitted due to docker-compose default network
     links:
       - db
-    environment:
-      # All settings will be filled by doppler-cli
-      # Nextcloud Settings
-      NEXTCLOUD_ADMIN_USER: ${NEXTCLOUD_ADMIN_USER}
-      NEXTCLOUD_ADMIN_PASSWORD: ${NEXTCLOUD_ADMIN_PASSWORD}
-      # the 'nextcloud' trusted domain allows the cron job
-      # to call cron.php from inside the docker-compose system
-      NEXTCLOUD_TRUSTED_DOMAINS: https://${SERVICE_DOMAIN} http://${SERVICE_DOMAIN} nextcloud
-      OVERWRITEHOST: ${SERVICE_DOMAIN}
-      OVERWRITEPROTOCOL: 'https'
-      # DB Settings
-      MYSQL_HOST: db
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-    networks:
-      - nextcloudnet
-      - web
-    labels:
-      # Traefik Config
-      - 'traefik.docker.network=web'
-      - 'traefik.enable=true'
-      - 'traefik.port=80'
-      - 'traefik.protocol=http'
-      - 'traefik.frontend.rule=Host:${SERVICE_DOMAIN}' # multiple host-aliases with multiple host rules?
-      # For service discovery behind traefik: https://docs.nextcloud.com/server/latest/admin_manual/configuration_server/reverse_proxy_configuration.html#service-discovery
-      - 'traefik.frontend.redirect.permanent=true'
-      - 'traefik.frontend.redirect.regex: https://(.*)/.well-known/(card|cal)dav'
-      - 'traefik.frontend.redirect.replacement: https://$$1/remote.php/dav/'
-
-  cron:
-    image: nextcloud:production-apache
-    restart: always
-    networks:
-      - nextcloudnet
-    volumes:
-      - ${NEXTCLOUD_DATA_ROOT}/main:/var/www/html
-      - ${NEXTCLOUD_DATA_ROOT}/files:/var/www/html/data
-    entrypoint: /cron.sh
     depends_on:
       - db
+    environment:
+      # All empty vars will be copied from host environment, which in turn is filled by doppler-cli
 
-  backup-s3-sync:
-    # https://github.com/futurevision/docker-aws-s3-sync
-    image: futurevision/aws-s3-sync
+      # DB Settings
+      POSTGRES_HOST: db
+      POSTGRES_DB:
+      POSTGRES_USER:
+      POSTGRES_PASSWORD:
+
+      # Nextcloud Settings
+      NEXTCLOUD_ADMIN_USER:
+      NEXTCLOUD_ADMIN_PASSWORD:
+      # Undocumented Hack to see nextcloud logs in docker:
+      # https://github.com/nextcloud/docker/issues/845#issuecomment-613391327
+      NC_log_type: errrorlog
+
+      # the 'nextcloud' trusted domain allows the cron job
+      # to call cron.php from inside the docker-compose system
+      NEXTCLOUD_TRUSTED_DOMAINS: https://${SERVICE_DOMAIN} https://nextcloud.${HOST_DOMAIN} nextcloud
+      OVERWRITEHOST: ${SERVICE_DOMAIN}
+      OVERWRITEPROTOCOL: 'https'
+
+      ### TODO: Redis Container for DB Speedup & prevention of file locking problems
+      ## The use of Redis is recommended to prevent file locking problems. See the examples for further instructions.
+      # REDIS_HOST Name of Redis container (via links & depends)
+      # REDIS_HOST_PORT
+      # REDIS_HOST_PASSWORD
+
+      ### TODO: Configure SMTP
+      # SMTP_HOST (not set by default): The hostname of the SMTP server.
+      # SMTP_SECURE (empty by default): Set to ssl to use SSL, or tls to use STARTTLS.
+      # SMTP_PORT (default: 465 for SSL and 25 for non-secure connections): Optional port for the SMTP connection. Use 587 for an alternative port for STARTTLS.
+      # SMTP_AUTHTYPE (default: LOGIN): The method used for authentication. Use PLAIN if no authentication is required.
+      # SMTP_NAME (empty by default): The username for the authentication.
+      # SMTP_PASSWORD (empty by default): The password for the authentication.
+      # MAIL_FROM_ADDRESS (not set by default): Use this address for the 'from' field in the emails sent by Nextcloud.
+      # MAIL_DOMAIN (not set by default): Set a different domain for the emails than the domain where Nextcloud is installed.
+
+      ### S3 compatible object store as primary storage
+      OBJECTSTORE_S3_HOST:
+      OBJECTSTORE_S3_BUCKET:
+      OBJECTSTORE_S3_KEY:
+      OBJECTSTORE_S3_SECRET:
+      OBJECTSTORE_S3_REGION:
+      OBJECTSTORE_S3_PORT: 443
+      OBJECTSTORE_S3_SSL: 'true'
+      # OBJECTSTORE_S3_USEPATH_STYLE: true # (default: false)
+      # OBJECTSTORE_S3_REGION:
+    networks:
+      - internal
+      - web
+    labels:
+      # Traefik V2 Config
+      - 'traefik.enable=true'
+      - 'traefik.docker.network=traefikv2'
+      - 'traefik.http.services.nextcloud.loadbalancer.server.port=80'
+      - 'traefik.http.routers.nextcloud.rule=Host(`${SERVICE_DOMAIN}`, `nextcloud.${HOST_DOMAIN}`)'
+      - 'traefik.http.routers.nextcloud.service=nextcloud@docker'
+      - 'traefik.http.routers.nextcloud.entrypoints=https'
+
+      # Override SSl settings (since I avil.io as second domain)
+      - 'traefik.http.routers.nextcloud.tls=true'
+      - 'traefik.http.routers.nextcloud.tls.certresolver=domainoffensive'
+      - 'traefik.http.routers.nextcloud.tls.domains[0].main=${SERVICE_DOMAIN}'
+      - 'traefik.http.routers.nextcloud.tls.domains[1].main=nextcloud.${HOST_DOMAIN}'
+      # For service discovery behind traefik:
+      # https://docs.nextcloud.com/server/latest/admin_manual/configuration_server/reverse_proxy_configuration.html#service-discovery
+      # Create a middleware named `nextcloud-redirects`
+      - 'traefik.http.middlewares.nextcloud-redirects.redirectRegex.permanent=true'
+      - 'traefik.http.middlewares.nextcloud-redirects.redirectRegex.regex=https://(.*)/.well-known/(card|cal)dav'
+      - 'traefik.http.middlewares.nextcloud-redirects.redirectRegex.replacement=https://$${1}/remote.php/dav/'
+      # => avoid interpolation by docker compose with double $ sign
+      # Apply the middleware named `nextcloud-redirects` to the router named `nextcloud`
+      - 'traefik.http.routers.nextcloud.middlewares=nextcloud-redirects@docker'
+
+  backup-cron:
+    # see documentation: https://medium.com/@ricardolsmendes/mysql-mariadb-with-scheduled-backup-jobs-running-in-docker-1956e9892e78
+    build: ./docker-backup-cron
     restart: always
     volumes:
-      - ${NEXTCLOUD_DATA_ROOT}:/data:rw
+      - ${NEXTCLOUD_DATA_ROOT}/config:/etc/backup/data-src:rw
+      - ${NEXTCLOUD_SERVICE_ROOT}:/etc/backup/service-src:rw
+      - ${NEXTCLOUD_BACKUP_ROOT}/data:/etc/backup/data-target:rw
+      - ${NEXTCLOUD_BACKUP_ROOT}/service:/etc/backup/service-target:rw
+    command: crond -f -d 8
+    networks:
+      - internal
+    links:
+      - db
     environment:
-      KEY: '${AWS_ACCESS_KEY_ID}'
-      SECRET: '${AWS_ACCESS_KEY_SECRET}'
-      REGION: eu-central-1
-      BUCKET: jb-vserv-backups
-      BUCKET_PATH: /${SERVICE_DOMAIN}
-      # sync each day at 02:30 - good, because backups will be made daily (at 02:00, defined by default crontab for alpine root user as 0   2   *   *   *)
-      # docs from: https://firefart.at/post/docker_and_cron_jobs/
-      CRON_SCHEDULE: '30 2 * * *'
+      PGPASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_HOST: db
+      POSTGRES_DB:
+      POSTGRES_USER:
+
+  # TODO: Check how this can/must be used when primary object storage is enabled
+  # cron:
+  #   image: ${NEXTCLOUD_IMAGE}
+  #   restart: always
+  #   networks:
+  #     - internal
+  #   volumes:
+  #     - ${NEXTCLOUD_DATA_ROOT}/main:/var/www/html
+  #     # - ${NEXTCLOUD_DATA_ROOT}/files:/var/www/html/data
+  #   entrypoint: /cron.sh
+  #   depends_on:
+  #     - db
+
+  ## OLD S3 Sync (now done by minio server)
+  # backup-s3-sync:
+  #   # https://github.com/futurevision/docker-aws-s3-sync
+  #   image: futurevision/aws-s3-sync
+  #   restart: always
+  #   volumes:
+  #     - ${NEXTCLOUD_DATA_ROOT}:/data:rw
+  #   environment:
+  #     KEY: '${AWS_ACCESS_KEY_ID}'
+  #     SECRET: '${AWS_ACCESS_KEY_SECRET}'
+  #     REGION: eu-central-1
+  #     BUCKET: jb-vserv-backups
+  #     BUCKET_PATH: /${SERVICE_DOMAIN}
+  #     # sync each day at 02:30 - good, because backups will be made daily (at 02:00, defined by default crontab for alpine root user as 0   2   *   *   *)
+  #     # docs from: https://firefart.at/post/docker_and_cron_jobs/
+  #     CRON_SCHEDULE: '30 2 * * *'
