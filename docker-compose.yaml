@@ -33,7 +33,7 @@ services:
     # Host:Container
     #      - "80:80"
     volumes:
-      - ${NEXTCLOUD_DATA_ROOT}/main:/var/www/html
+      - ${NEXTCLOUD_DATA_ROOT}/config:/var/www/html
       # - ${NEXTCLOUD_DATA_ROOT}/files:/var/www/html/data
     # maybe this link can be omitted due to docker-compose default network
     links:
@@ -120,7 +120,7 @@ services:
     build: ./docker-backup-cron
     restart: always
     volumes:
-      - ${NEXTCLOUD_DATA_ROOT}:/etc/backup/data-src:rw
+      - ${NEXTCLOUD_DATA_ROOT}/config:/etc/backup/data-src:rw
       - ${NEXTCLOUD_SERVICE_ROOT}:/etc/backup/service-src:rw
       - ${NEXTCLOUD_BACKUP_ROOT}/data:/etc/backup/data-target:rw
       - ${NEXTCLOUD_BACKUP_ROOT}/service:/etc/backup/service-target:rw

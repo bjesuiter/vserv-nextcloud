@@ -34,7 +34,7 @@
       loop:
         - '{{data_root}}'
         - '{{data_root}}/database'
-        - '{{data_root}}/main'
+        - '{{data_root}}/config'
         # - '{{data_root}}/files'
 
     # variable comes from imported vars, as described here:
