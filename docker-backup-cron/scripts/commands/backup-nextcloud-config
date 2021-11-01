@@ -7,4 +7,4 @@
 
 # Sync config folder
 # Source: https://docs.nextcloud.com/server/latest/admin_manual/maintenance/backup.html#backup-folders
-rsync -Aavx /etc/backup/data-src/ "/etc/backup/data-target/nextcloud-$(date +"%Y%m%d")-config_dir.bak"
+rsync -Aavx /etc/backup/data-src/ "/etc/backup/data-target/nextcloud-$(date +"%Y%m%d")-config_dir.bak/"
