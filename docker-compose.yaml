@@ -114,6 +114,26 @@ services:
       # Apply the middleware named `nextcloud-redirects` to the router named `nextcloud`
       - 'traefik.http.routers.nextcloud.middlewares=nextcloud-redirects@docker'
 
+    backup-cron:
+      # see documentation: https://medium.com/@ricardolsmendes/mysql-mariadb-with-scheduled-backup-jobs-running-in-docker-1956e9892e78
+      build: ./docker-backup-cron
+      restart: always
+      volumes:
+        - ${NEXTCLOUD_DATA_ROOT}:/etc/backup/data-src:rw
+        - ${NEXTCLOUD_SERVICE_ROOT}:/etc/backup/service-src:rw
+        - ${NEXTCLOUD_BACKUP_ROOT}/data:/etc/backup/data-target:rw
+        - ${NEXTCLOUD_BACKUP_ROOT}/service:/etc/backup/service-target:rw
+      command: crond -f -d 8
+      networks:
+        - internal
+      links:
+        - db
+      environment:
+        PGPASSWORD: ${POSTGRES_PASSWORD}
+        POSTGRES_HOST: db
+        POSTGRES_DB:
+        POSTGRES_USER:
+
   # TODO: Check how this can/must be used when primary object storage is enabled
   # cron:
   #   image: ${NEXTCLOUD_IMAGE}
