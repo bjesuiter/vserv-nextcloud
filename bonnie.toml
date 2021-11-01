@@ -1,0 +1,59 @@
+# TOML Documentation: https://github.com/toml-lang/toml
+# Original Blogpost: https://dev.to/arctic_hen7/an-alternative-to-npm-and-yarn-scripts-bonnie-2idd
+# How to use bonnie: https://github.com/arctic-hen7/bonnie/wiki
+
+
+# run these scripts with bonnie in your path, 
+# for example: bonnie start
+
+# NOTE: These scripts may use the new `docker compose` (without a dash) command
+# See: https://docs.docker.com/compose/cli-command/ 
+# And: https://docs.docker.com/compose/cli-command-compatibility/
+
+# Mandatory from 0.2.0 onwards
+version = "0.3.2"
+
+[scripts]
+    # [Internal] Main compose alias to ensure, that doppler-run will be executed with each compose command
+    compose = "doppler run -- docker-compose %%"
+    # [Internal] - more base commands
+    git-pull       = "git pull --ff"
+    docker-pull    = "bonnie compose pull"
+    docker-cleanup = "docker image prune"
+    build-cron     = "bonnie compose build backup-cron"
+
+    # first setup - let db initialize, then stop it and run `bonnie start-logs`
+    first-init = "bonnie compose up db"
+
+    # everyday scripts
+    start        = "bonnie compose up --remove-orphans -d"
+    stop         = "bonnie compose down"
+    start-logs   = ["start", "logs"]
+    restart      = ["stop", "start"]
+    restart-logs = ["stop", "start-logs"]
+    logs         = "bonnie compose logs -f -t %%"
+    update       = ["stop", "git-pull", "docker-pull", "build-cron", "start-logs"]
+    backup-now   = ["backup-daily"]
+    cleanup      = ["docker-cleanup"]
+
+    # Per Container Scripts - Nextcloud 
+    logs-nxt            = "bonnie logs nextcloud"
+    shell-nxt           = "bonnie compose exec nextcloud bash"
+    shell-nxt-www       = "bonnie compose exec -u www-data nextcloud bash"
+    occ                 = "bonnie compose exec -u www-data nextcloud ./occ %%"
+    occ-logs            = "bonnie occ log:tail"
+    occ-logs-watch      = "bonnie occ log:watch"
+    occ-upgrade         = "bonnie occ upgrade"
+    occ-maintenance-off = "bonnie occ maintenance:mode --off"
+    occ-maintenance-on  = "bonnie occ maintenance:mode --on"
+
+    # Per Container Scripts - db
+    logs-db = "bonnie logs db"
+
+    # Per Container Scripts - backup-cron
+    logs-backup  = "bonnie logs backup-cron"
+    shell-backup = "bonnie compose exec backup-cron sh"
+    logs-cron    = "bonnie compose exec backup-cron grep CRON /var/log/syslog"
+    backup-db    = "bonnie compose run backup-cron /etc/scripts/backup-postgres-db"
+    backup-nxt   = "bonnie compose run backup-cron /etc/scripts/backup-nextcloud-config"
+    backup-daily = "bonnie compose run backup-cron /etc/periodic/daily/backup-daily"

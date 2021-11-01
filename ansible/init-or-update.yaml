@@ -57,9 +57,9 @@
       debug:
         msg:
           - 'For Initial Setup (if applicable):'
-          - '1. `npm run first-init` - Starts the db server and lets it initialize to avoid race-conditions later'
+          - '1. `bonnie first-init` - Starts the db server and lets it initialize to avoid race-conditions later'
           - '2. `STRG + c` - Stop database if ready'
-          - '3. `npm start` - Starts complete docker-compose file'
+          - '3. `bonnie start-logs` - Starts complete docker-compose file and shows logs'
           - '4. Go to https://nextcloud.avil.io to finish setup'
           - '(Note: This may not work if DNS did not fully propagate through yet)'
           - 'Root Password: find in doppler dashboard'
