@@ -53,7 +53,7 @@ version = "0.3.2"
     occ-upgrade          = "bonnie occ upgrade"
     occ-maintenance-off  = "bonnie occ maintenance:mode --off"
     occ-maintenance-on   = "bonnie occ maintenance:mode --on"
-    occ-files-scan       = "bonnie occ files:scan %%"
+    occ-files-scan       = "bonnie occ files:scan --all"
     occ-files-cleanup    = "bonnie occ files:cleanup"
     occ-trashbin-cleanup = "bonnie occ trashbin:cleanup --all-users"
 
