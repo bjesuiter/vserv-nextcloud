@@ -8,7 +8,8 @@ networks:
 
 services:
   db:
-    image: postgres:14.0
+    # Before updating: check availability of postgres-client on alpine linux for backups!
+    image: postgres:13.4
     restart: always
     volumes:
       - ${NEXTCLOUD_DATA_ROOT}/database:/var/lib/postgresql/data

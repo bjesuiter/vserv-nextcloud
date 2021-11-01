@@ -5,6 +5,6 @@ COPY ./scripts/daily/* /etc/periodic/daily/
 
 RUN apk update && \
     apk upgrade && \
-    apk add --no-cache postgresql-client>14.0-r5 rsync && \
+    apk add --no-cache postgresql-client rsync && \
     chmod a+x /etc/periodic/daily/* && \
     chmod a+x /etc/scripts/*
