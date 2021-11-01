@@ -26,15 +26,23 @@ version = "0.3.2"
     first-init = "bonnie compose up db"
 
     # everyday scripts
-    start        = "bonnie compose up --remove-orphans -d"
-    stop         = "bonnie compose down"
-    start-logs   = ["start", "logs"]
-    restart      = ["stop", "start"]
-    restart-logs = ["stop", "start-logs"]
-    logs         = "bonnie compose logs -f -t %%"
-    update       = ["stop", "git-pull", "docker-pull", "build-cron", "start-logs"]
-    backup-now   = ["backup-daily"]
-    cleanup      = ["docker-cleanup"]
+    start      = "bonnie compose up --remove-orphans -d"
+    stop       = "bonnie compose down"
+    logs       = "bonnie compose logs -f -t %%"
+    backup-now = "bonnie backup-daily"
+    cleanup    = "bonnie docker-cleanup"
+
+    start-logs = ["bonnie start", "bonnie logs"]
+    restart = ["bonnie stop", "bonnie start"]
+    restart-logs = ["bonnie stop", "bonnie start-logs"]
+    update = [
+        "bonnie stop",
+        "bonnie git-pull",
+        "bonnie docker-pull",
+        "bonnie build-cron",
+        "bonnie start-logs",
+    ]
+
 
     # Per Container Scripts - Nextcloud 
     logs-nxt            = "bonnie logs nextcloud"
