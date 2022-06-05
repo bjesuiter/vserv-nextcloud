@@ -7,7 +7,7 @@ set -e
 
 # -F p = Format: plain (a plain sql script, this is the default)
 # We use -Fc here, which creates a custom-format archive which can be fed into pg_restore
-pg_dump "${POSTGRES_DB}" -h "${POSTGRES_HOST}" -U "${POSTGRES_USER}" -Fc | restic --stdin --stdin-filename "nextcloud-$(date +"%Y%m%d")-Fc.pgdump"
+pg_dump "${POSTGRES_DB}" -h "${POSTGRES_HOST}" -U "${POSTGRES_USER}" -Fc | restic backup --stdin --stdin-filename "nextcloud-$(date +"%Y%m%d")-Fc.pgdump"
 
 ## can be restored by https://www.postgresql.org/docs/current/app-pgrestore.html
 #
