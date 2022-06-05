@@ -80,6 +80,13 @@ Note: run `occ maintenance:data-fingerprint` after restauration!
    doppler run -- restic init
    ```
 
+## Interacting with Restic Backups
+
+_All connection data will be auto-filled by doppler_  
+_If the bonnie executable is not available, run doppler directly like `doppler run -- restic`_
+
+- `bonnie restic snapshot` => shows all available snapshots
+
 ---
 
 # Old
