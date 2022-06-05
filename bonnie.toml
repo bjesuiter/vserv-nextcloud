@@ -22,6 +22,10 @@ version = "0.3.2"
     docker-cleanup = "docker image prune"
     build-cron     = "bonnie compose build backup-cron"
 
+    # Maintenance Scripts 
+    # open-doppler only works on macos
+    open-doppler = "open https://dashboard.doppler.com/workplace/f867183ebfa5d4d1e007/projects/vserv-nextcloud"
+
     # first setup - let db initialize, then stop it and run `bonnie start-logs`
     first-init = "bonnie compose up db"
 
