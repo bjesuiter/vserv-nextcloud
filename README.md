@@ -11,14 +11,74 @@ Uses: [Nextcloud Docker](https://github.com/nextcloud/docker)
 
 ## Backup & Restore
 
+### Official Nextcloud
+
 - [Backup Guide](https://docs.nextcloud.com/server/latest/admin_manual/maintenance/backup.html)
 - [Restore Guide](https://docs.nextcloud.com/server/latest/admin_manual/maintenance/restore.html)
 
 Note: run `occ maintenance:data-fingerprint` after restauration!
 
+### Benjamin Jesuiter Backups
+
 - Files: via minio mc mirror from Netcup storage1500 to aws s3
 - Folders (Config, Themes, etc.): backup to jb-web-services/backups/nextcloud
 - Database: backup via pg_dump to jb-web-services/backups/nextcloud
+
+### New: Database and Service Folder Backups using restic to AWS S3!
+
+1.[One-Time] Create new Bucket for storing these restic backups
+
+- Account: bjesuiter@gmail.com, with IAM: admin@bjesuiter
+- Bucket-Name: `nextcloud.avil.io-restic`
+- ACLs deaktiviert
+- Gesamten öffentlichen Zugriff deaktivieren
+- Bucket-Versioning dekativiert
+- Tags:
+  - server-alias=epyc
+  - server-provider=netcup
+  - vserv-app=nextcloud
+- Keine Verschlüsselung (Restic verschlüsselt eh schon)
+- Keine Objektsperre
+
+2. [One-Time] Create an IAM User for accessing this bucket
+
+   - Name: restic-nextcloud-epyc
+   - With Policy:
+
+   ```
+   {
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": [
+                "s3:ListBucket",
+                "s3:GetObject",
+                "s3:GetObjectVersion",
+                "s3:PutObject"
+            ],
+            "Resource": "arn:aws:s3:::nextcloud.avil.io-restic"
+        }
+    ]
+   }
+   ```
+
+3. [One-Time] Setup Env Vars in doppler.com project
+   (All secret info can be found in Bitwarden in note `[BACKUP BUCKET] nextcloud.avil.io-restic`)
+
+   - Open doppler.com with `bonnie open-doppler`
+   - Setup `RESTIC_REPOSITORY` as `s3:s3.amazonaws.com/nextcloud.avil.io-restic`
+   - Setup `AWS_ACCESS_KEY_ID` and `AWS_ACCESS_KEY_SECRET` from Bitwarden
+   - Setup `RESTIC_PASSWORD` from Bitwarden
+
+4. [One-Time] Init Restic Repository manually from mac
+   _(if not available: Install restic via: `brew install restic`)_
+
+   ```
+   # Note: Restic repository and S3 Access Keys are provided by doppler
+   doppler run -- restic init
+   ```
 
 ---
 
