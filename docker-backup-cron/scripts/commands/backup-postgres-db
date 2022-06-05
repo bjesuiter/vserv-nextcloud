@@ -1,3 +1,21 @@
-#!/bin/sh
+#!/bin/bash
 
-pg_dump "${POSTGRES_DB}" -h "${POSTGRES_HOST}" -U "${POSTGRES_USER}" -f "/etc/backup/data-target/nextcloud-$(date +"%Y%m%d")-sql.bak"
+# Read more about "Bash strict mode" here: http://redsymbol.net/articles/unofficial-bash-strict-mode/
+# NOTE: Do not use set -u, since the env vars here will be used directly from outside and not as script params! 
+set -o pipefail
+set -e
+
+# -F p = Format: plain (a plain sql script, this is the default)
+# We use -Fc here, which creates a custom-format archive which can be fed into pg_restore
+pg_dump "${POSTGRES_DB}" -h "${POSTGRES_HOST}" -U "${POSTGRES_USER}" -Fc | restic --stdin --stdin-filename "nextcloud-$(date +"%Y%m%d")-Fc.pgdump"
+
+## can be restored by https://www.postgresql.org/docs/current/app-pgrestore.html
+#
+# if needed, drop db first:
+# dropdb "${POSTGRES_DB}" -h "${POSTGRES_HOST}" -U "${POSTGRES_USER}"
+#
+# The database named in the -d switch can be any database existing in the cluster; 
+# pg_restore only uses it to issue the CREATE DATABASE command for mydb. 
+# With -C, data is always restored into the database name that appears in the dump file.
+#
+# pg_restore -d postgres -h "${POSTGRES_HOST}" -U "${POSTGRES_USER}" -C file.dump
