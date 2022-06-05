@@ -5,6 +5,10 @@ Uses: [Nextcloud Docker](https://github.com/nextcloud/docker)
 - [Guide: Using Object Storage as Primary Storage](https://docs.nextcloud.com/server/latest/admin_manual/configuration_files/primary_storage.html)
 - [ENV Vars available in nextcloud docker image](https://hub.docker.com/_/nextcloud?tab=description)
 
+## TODO
+
+- make dev doppler config working locally her, with ./playground as data folder
+
 ## Advanced Config Guides
 
 - https://wiki.archlinux.org/title/Nextcloud#Writable_apps_directory
