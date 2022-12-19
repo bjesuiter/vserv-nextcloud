@@ -61,8 +61,8 @@ version = "0.3.2"
     occ-files-scan       = "bonnie occ files:scan --all"
     occ-files-cleanup    = "bonnie occ files:cleanup"
     occ-trashbin-cleanup = "bonnie occ trashbin:cleanup --all-users"
-    db-read-locks        = "bonnie compose exec db psql -U $POSTGRES_USER -d $POSTGRES_DB -c 'SELECT * FROM oc_file_locks WHERE 1'"
-    db-release-locks     = "bonnie compose exec db psql -U $POSTGRES_USER -d $POSTGRES_DB -c 'DELETE FROM oc_file_locks WHERE 1'"
+    db-read-locks        = "bonnie compose exec db psql -U \"$POSTGRES_USER\" -d \"$POSTGRES_DB\" -c 'SELECT * FROM oc_file_locks WHERE 1'"
+    db-release-locks     = "bonnie compose exec db psql -U \"$POSTGRES_USER\" -d \"$POSTGRES_DB\" -c 'DELETE FROM oc_file_locks WHERE 1'"
 
     # Per Container Scripts - db
     logs-db = "bonnie logs db"
