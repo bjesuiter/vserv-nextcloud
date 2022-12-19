@@ -66,6 +66,7 @@ version = "0.3.2"
     # TODO: Find out why this shit is not working! 
     # Last Try: bonnie compose exec db bash -c 'psql -U nextcloud -d nextcloud -c \"SELECT * FROM oc_file_locks WHERE 1\"' 
     # Also not working
+    # TODO: Fix Lock Problem
     db-read-locks    = "bonnie compose exec db bash -c 'psql -U $POSTGRES_USER -d POSTGRES_DB -c \"SELECT * FROM oc_file_locks WHERE 1\"'"
     db-release-locks = "bonnie compose exec db psql -U \"$POSTGRES_USER\" -d \"$POSTGRES_DB\" -c 'DELETE FROM oc_file_locks WHERE 1'"
 
