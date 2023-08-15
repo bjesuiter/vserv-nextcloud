@@ -3,8 +3,8 @@ version: '3'
 networks:
   internal:
   web:
-    external:
-      name: traefikv2
+    name: traefikv2
+    external: true
 
 services:
   db:
@@ -20,6 +20,11 @@ services:
       POSTGRES_PASSWORD:
     networks:
       - internal
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '200k'
+        max-file: '10'
 
   nextcloud:
     image: ${NEXTCLOUD_IMAGE}
@@ -40,6 +45,11 @@ services:
       - db
     depends_on:
       - db
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '200k'
+        max-file: '10'
     environment:
       # All empty vars will be copied from host environment, which in turn is filled by doppler-cli
 
@@ -129,17 +139,21 @@ services:
       - internal
     links:
       - db
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '200k'
+        max-file: '10'
     environment:
       PGPASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_HOST: db
       POSTGRES_DB:
       POSTGRES_USER:
-      RESTIC_REPOSITORY: 
+      RESTIC_REPOSITORY:
       RESTIC_PASSWORD:
       AWS_ACCESS_KEY_ID:
       AWS_SECRET_ACCESS_KEY:
       AWS_DEFAULT_REGION:
-
 
   # TODO: Check how this can/must be used when primary object storage is enabled
   # cron:
