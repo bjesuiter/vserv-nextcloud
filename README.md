@@ -8,12 +8,20 @@ Uses: [Nextcloud Docker](https://github.com/nextcloud/docker)
 
 ## Custom Configs (by bjesuiter)
 
+Can be configured via occ tool (see "Workflows" Section) ! (no need to fumble around with config.php directly!)
+
 https://www.hostflash.de/blog/webhosting/nextcloud-sprache-standardmaessig-auf-deutsch-einstellen.html
 
-```
-  'default_language' => 'de',
-  'default_locale' => 'de_DE',
-  'force_language' => 'de',
+```bash
+  # 'default_language' => 'de',
+  # 'default_locale' => 'de_DE'
+
+  bonnie occ config:system:set force_language --value="de"
+  bonnie occ config:system:set force_locale --value="de_DE"
+
+  # Alternative: default language and locale
+  # bonnie occ config:system:set default_language --value="de"
+  # bonnie occ config:system:set default_locale --value="de_DE"
 ```
 
 ### Custom Configs in config.php
@@ -28,6 +36,28 @@ https://www.hostflash.de/blog/webhosting/nextcloud-sprache-standardmaessig-auf-d
 1. Open a shell to db container with `bonnie db-shell`
 2. See all locked files via: `psql -U $POSTGRES_USER -d $POSTGRES_DB -c "SELECT * FROM oc_file_locks WHERE lock=1"`
 3. Delete all file locks: `psql -U $POSTGRES_USER -d $POSTGRES_DB -c "DELETE FROM oc_file_locks WHERE lock=1"`
+
+### Configure config.php with occ tool
+
+```bash
+# get a config
+bonnie occ config:system:get force_locale
+
+# set a string config
+bonnie occ config:system:set force_locale --value="de_DE"
+
+# set a boolean, integer or float config
+bonnie occ config:system:set [config_option] --type=boolean --value=false
+
+# set array config - second param: index of the array (in this case 2)
+bonnie occ  config:system:set trusted_domains 2 --value=example.com
+
+# set hierarchical values (like redis.port)
+bonnie occ config:system:set redis port --value=0
+
+# delete single values
+bonnie occ config:system:delete [config_option]
+```
 
 ---
 
