@@ -6,6 +6,21 @@ Uses: [Nextcloud Docker](https://github.com/nextcloud/docker)
 - [ENV Vars available in nextcloud docker image](https://hub.docker.com/_/nextcloud?tab=description)
   - better: Full Readme (truncated on dockerhub): https://github.com/docker-library/docs/blob/master/nextcloud/README.md
 
+## Custom Configs (by bjesuiter)
+
+https://www.hostflash.de/blog/webhosting/nextcloud-sprache-standardmaessig-auf-deutsch-einstellen.html
+
+```
+  'default_language' => 'de',
+  'default_locale' => 'de_DE',
+  'force_language' => 'de',
+```
+
+### Custom Configs in config.php
+
+1. Login to root.epyc
+2. Goto /home/jb-web-services/
+
 ## Workflows
 
 ### Running Postgres Commands inside db container

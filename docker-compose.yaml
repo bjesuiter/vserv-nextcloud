@@ -38,7 +38,7 @@ services:
     # Host:Container
     #      - "80:80"
     volumes:
-      - ${NEXTCLOUD_DATA_ROOT}/config:/var/www/html
+      - ${NEXTCLOUD_DATA_ROOT}/nextcloud_html:/var/www/html
       # - ${NEXTCLOUD_DATA_ROOT}/files:/var/www/html/data
     # maybe this link can be omitted due to docker-compose default network
     links:
