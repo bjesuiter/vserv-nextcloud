@@ -66,9 +66,11 @@ version = "0.3.2"
     # Per Container Scripts - db
     logs-db = "bonnie logs db"
     # Test env availability via bonnie compose exec db printenv POSTGRES_USER
+    # not working for some reason: 
     db-locks-read    = "bonnie compose exec db bash -c 'psql -U $POSTGRES_USER -d $POSTGRES_DB -c \"SELECT * FROM oc_file_locks WHERE lock=1\"'"
     db-locks-release = "bonnie compose exec db psql -U \"$POSTGRES_USER\" -d \"$POSTGRES_DB\" -c 'DELETE FROM oc_file_locks WHERE lock=1'"
-    db-shell         = "bonnie compose exec db bash"
+    # working
+    db-shell = "bonnie compose exec db bash"
 
     # Per Container Scripts - backup-cron
     logs-backup  = "bonnie logs backup-cron"
