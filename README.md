@@ -5,6 +5,18 @@ Uses: [Nextcloud Docker](https://github.com/nextcloud/docker)
 - [Guide: Using Object Storage as Primary Storage](https://docs.nextcloud.com/server/latest/admin_manual/configuration_files/primary_storage.html)
 - [ENV Vars available in nextcloud docker image](https://hub.docker.com/_/nextcloud?tab=description)
 
+## Workflows
+
+### Running Postgres Commands inside db container
+
+1. Open a shell to db container with `bonnie db-shell`
+2. See all locked files via: `psql -U $POSTGRES_USER -d $POSTGRES_DB -c "SELECT * FROM oc_file_locks WHERE lock=1"`
+3. Delete all file locks: `psql -U $POSTGRES_USER -d $POSTGRES_DB -c "DELETE FROM oc_file_locks WHERE lock=1"`
+
+---
+
+# CLEANUP README!!!
+
 ## TODO
 
 - make dev doppler config working locally her, with ./playground as data folder
