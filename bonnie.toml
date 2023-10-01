@@ -62,6 +62,9 @@ version = "0.3.2"
     occ-files-scan       = "bonnie occ files:scan --all"
     occ-files-cleanup    = "bonnie occ files:cleanup"
     occ-trashbin-cleanup = "bonnie occ trashbin:cleanup --all-users"
+    
+    # Per Container Scripts - db
+    logs-db = "bonnie logs db"
     # Test env availability via bonnie compose exec db printenv POSTGRES_USER
     # TODO: Find out why this shit is not working! 
     # Last Try: bonnie compose exec db bash -c 'psql -U nextcloud -d nextcloud -c \"SELECT * FROM oc_file_locks WHERE 1\"' 
@@ -69,9 +72,7 @@ version = "0.3.2"
     # TODO: Fix Lock Problem
     db-read-locks    = "bonnie compose exec db bash -c 'psql -U $POSTGRES_USER -d POSTGRES_DB -c \"SELECT * FROM oc_file_locks WHERE 1\"'"
     db-release-locks = "bonnie compose exec db psql -U \"$POSTGRES_USER\" -d \"$POSTGRES_DB\" -c 'DELETE FROM oc_file_locks WHERE 1'"
-
-    # Per Container Scripts - db
-    logs-db = "bonnie logs db"
+    db-shell = "bonnie compose exec db bash"
 
     # Per Container Scripts - backup-cron
     logs-backup  = "bonnie logs backup-cron"
