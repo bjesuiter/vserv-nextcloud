@@ -140,6 +140,7 @@ services:
     entrypoint: /cron.sh
     depends_on:
       - nextcloud-app
+      - db
 
   backup-cron:
     # see documentation: https://medium.com/@ricardolsmendes/mysql-mariadb-with-scheduled-backup-jobs-running-in-docker-1956e9892e78
