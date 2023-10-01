@@ -26,7 +26,7 @@ services:
         max-size: '200k'
         max-file: '10'
 
-  nextcloud:
+  nextcloud-app:
     image: nextcloud:27-apache
     container_name: nextcloud
     hostname: ${SERVICE_DOMAIN}
@@ -130,9 +130,23 @@ services:
       # Apply the middleware named `nextcloud-redirects` to the router named `nextcloud`
       - 'traefik.http.routers.nextcloud.middlewares=nextcloud-redirects@docker'
 
+  # TODO: Check how this can/must be used when primary object storage is enabled
+  nextcloud-cron:
+    image: nextcloud:27-apache
+    container_name: nextcloud-cron
+    restart: unless-stopped
+    networks:
+      - internal
+    volumes:
+      - ${NEXTCLOUD_DATA_ROOT}/nextcloud_html:/var/www/html
+    entrypoint: /cron.sh
+    depends_on:
+      - nextcloud-app
+
   backup-cron:
     # see documentation: https://medium.com/@ricardolsmendes/mysql-mariadb-with-scheduled-backup-jobs-running-in-docker-1956e9892e78
     build: ./docker-backup-cron
+    container_name: backup-cron
     restart: always
     volumes:
       - ${NEXTCLOUD_DATA_ROOT}/config:/etc/backup/data-src:rw
@@ -159,19 +173,6 @@ services:
       AWS_ACCESS_KEY_ID:
       AWS_SECRET_ACCESS_KEY:
       AWS_DEFAULT_REGION:
-
-  # TODO: Check how this can/must be used when primary object storage is enabled
-  # cron:
-  #   image: ${NEXTCLOUD_IMAGE}
-  #   restart: always
-  #   networks:
-  #     - internal
-  #   volumes:
-  #     - ${NEXTCLOUD_DATA_ROOT}/main:/var/www/html
-  #     # - ${NEXTCLOUD_DATA_ROOT}/files:/var/www/html/data
-  #   entrypoint: /cron.sh
-  #   depends_on:
-  #     - db
 
   ## OLD S3 Sync (now done by minio server)
   # backup-s3-sync:
