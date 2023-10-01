@@ -28,7 +28,6 @@ services:
 
   nextcloud-app:
     image: nextcloud:27-apache
-    container_name: nextcloud
     hostname: ${SERVICE_DOMAIN}
     restart: always
     # Ports MUST NOT be forwarded in production,
@@ -133,7 +132,6 @@ services:
   # TODO: Check how this can/must be used when primary object storage is enabled
   nextcloud-cron:
     image: nextcloud:27-apache
-    container_name: nextcloud-cron
     restart: unless-stopped
     networks:
       - internal
@@ -146,7 +144,6 @@ services:
   backup-cron:
     # see documentation: https://medium.com/@ricardolsmendes/mysql-mariadb-with-scheduled-backup-jobs-running-in-docker-1956e9892e78
     build: ./docker-backup-cron
-    container_name: backup-cron
     restart: always
     volumes:
       - ${NEXTCLOUD_DATA_ROOT}/config:/etc/backup/data-src:rw
