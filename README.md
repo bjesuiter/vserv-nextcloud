@@ -4,6 +4,7 @@ Uses: [Nextcloud Docker](https://github.com/nextcloud/docker)
 
 - [Guide: Using Object Storage as Primary Storage](https://docs.nextcloud.com/server/latest/admin_manual/configuration_files/primary_storage.html)
 - [ENV Vars available in nextcloud docker image](https://hub.docker.com/_/nextcloud?tab=description)
+  - better: Full Readme (truncated on dockerhub): https://github.com/docker-library/docs/blob/master/nextcloud/README.md
 
 ## Workflows
 

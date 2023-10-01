@@ -72,6 +72,11 @@ services:
       OVERWRITEHOST: ${SERVICE_DOMAIN}
       OVERWRITEPROTOCOL: 'https'
 
+      # Max File Size Limits
+      # default: 512M
+      PHP_MEMORY_LIMIT: 2G
+      PHP_UPLOAD_LIMIT: 8G
+
       ### TODO: Redis Container for DB Speedup & prevention of file locking problems
       ## The use of Redis is recommended to prevent file locking problems. See the examples for further instructions.
       # REDIS_HOST Name of Redis container (via links & depends)
