@@ -27,7 +27,7 @@ services:
         max-file: '10'
 
   nextcloud:
-    image: ${NEXTCLOUD_IMAGE}
+    image: nextcloud:26-apache
     container_name: nextcloud
     hostname: ${SERVICE_DOMAIN}
     restart: always
