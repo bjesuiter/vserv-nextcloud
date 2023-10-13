@@ -6,7 +6,11 @@ Uses: [Nextcloud Docker](https://github.com/nextcloud/docker)
 - [ENV Vars available in nextcloud docker image](https://hub.docker.com/_/nextcloud?tab=description)
   - better: Full Readme (truncated on dockerhub): https://github.com/docker-library/docs/blob/master/nextcloud/README.md
 
-## Custom Configs (by bjesuiter)
+## TODO
+
+- `bonnie migrate-db-bigint` - https://docs.nextcloud.com/server/27/admin_manual/configuration_database/bigint_identifiers.html
+
+## Custom Configs in config.php (by bjesuiter)
 
 Can be configured via occ tool (see "Workflows" Section) ! (no need to fumble around with config.php directly!)
 
@@ -23,11 +27,6 @@ https://www.hostflash.de/blog/webhosting/nextcloud-sprache-standardmaessig-auf-d
   # bonnie occ config:system:set default_language --value="de"
   # bonnie occ config:system:set default_locale --value="de_DE"
 ```
-
-### Custom Configs in config.php
-
-1. Login to root.epyc
-2. Goto /home/jb-web-services/
 
 ## Workflows
 

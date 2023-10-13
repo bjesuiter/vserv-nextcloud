@@ -14,6 +14,10 @@
 version = "0.3.2"
 
 [scripts]
+
+    # One-Time/Temporary Scripts & TODOs 
+    migrate-db-bigint = "bonnie oc db:convert-filecache-bigint"
+
     # [Internal] Main compose alias to ensure, that doppler-run will be executed with each compose command
     compose = "doppler run -- docker compose %%"
 
