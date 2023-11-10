@@ -82,7 +82,7 @@ services:
       # REDIS_HOST_PORT
       # REDIS_HOST_PASSWORD
 
-      ### TODO: Configure SMTP
+      ### SMTP Configured via Admin Interface, with new SES SMTP Method :)
       # SMTP_HOST (not set by default): The hostname of the SMTP server.
       # SMTP_SECURE (empty by default): Set to ssl to use SSL, or tls to use STARTTLS.
       # SMTP_PORT (default: 465 for SSL and 25 for non-secure connections): Optional port for the SMTP connection. Use 587 for an alternative port for STARTTLS.
