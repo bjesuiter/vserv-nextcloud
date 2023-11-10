@@ -55,10 +55,10 @@ version = "0.3.2"
 
 
     # Per Container Scripts - Nextcloud 
-    logs-nxt             = "bonnie logs nextcloud"
-    shell-nxt            = "bonnie compose exec nextcloud bash"
-    shell-nxt-www        = "bonnie compose exec -u www-data nextcloud bash"
-    occ                  = "bonnie compose exec -u www-data nextcloud ./occ %%"
+    logs-nxt             = "bonnie logs nextcloud-app"
+    shell-nxt            = "bonnie compose exec nextcloud-app bash"
+    shell-nxt-www        = "bonnie compose exec -u www-data nextcloud-app bash"
+    occ                  = "bonnie compose exec -u www-data nextcloud-app ./occ %%"
     occ-logs             = "bonnie occ log:tail"
     occ-logs-watch       = "bonnie occ log:watch"
     occ-upgrade          = "bonnie occ upgrade"
