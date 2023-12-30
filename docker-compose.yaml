@@ -68,6 +68,10 @@ services:
       # the 'nextcloud' trusted domain allows the cron job
       # to call cron.php from inside the docker-compose system
       NEXTCLOUD_TRUSTED_DOMAINS: https://${SERVICE_DOMAIN} https://nextcloud.${HOST_DOMAIN} nextcloud
+      # Get `docker network inspect traefikv2`
+      # and add the subnet of the traefikv2 network to the trusted proxies
+      # Source: https://www.reddit.com/r/NextCloud/comments/fy6l1v/comment/hx9smhy/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
+      TRUSTED_PROXIES: „172.22.0.0/16“
       OVERWRITEHOST: ${SERVICE_DOMAIN}
       OVERWRITEPROTOCOL: 'https'
 
