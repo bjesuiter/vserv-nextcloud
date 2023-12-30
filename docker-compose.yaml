@@ -27,7 +27,7 @@ services:
         max-file: '10'
 
   nextcloud-app:
-    image: nextcloud:27-apache
+    image: nextcloud:28-apache
     hostname: ${SERVICE_DOMAIN}
     restart: always
     # Ports MUST NOT be forwarded in production,
